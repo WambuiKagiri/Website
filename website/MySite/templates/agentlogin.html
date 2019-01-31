@@ -1,0 +1,9 @@
+def id_generator(size=6,chars=string.ascii_uppercase + string.digits):
+		return ''.join(random.choice(chars) for _ in range(size))
+
+
+def update_slug(pp, schema_editor):
+    for instance in YOUMODEL.objects.all():
+        #           ^^^^^^^
+        instance.slug = id_generator()
+        instance.save()

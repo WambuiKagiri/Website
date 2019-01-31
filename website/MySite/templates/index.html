@@ -1,0 +1,129 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/main.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <div class="supercontainer">
+        <!-- header -->
+        <header>
+            {% include "includes/header.html" %} 
+        </header>
+        
+        <!-- Home -->
+        <div>
+
+        </div>
+        <div class="jumbotron" style="background-image:url({%static 'MySite/images/back.jpg'%})">
+            <div class="container text-center">
+                
+                {% include "includes/search.html" %}
+            </div>
+        </div>
+
+        <div class="container bg-3 text-center">
+                   
+                <h3>Properties for Rent</h3><br>
+                <a href="/properties/" class="textlink">View all properties</a>
+                <div class="row">
+                {% for property in propertys %}  
+                  <div class="col-sm-3 shadow" style="border: solid #fff6f6 2px;height: 340px;box-shadow: 5px 3px 5px #d8d8d8;margin-top: 13px;width: 280px;margin-right: 4px;margin-left: 4px;">
+                        <a href="/property/{{property.property_title}}">
+                        <div class="pics">   
+                        <img src="{{ property.property_picture.url }}" class="img-responsive" style="box-shadow: 5px 3px 5px #ccc;" alt="Image">
+                        <p>{{ property.location }}</p>
+                        <p>{{ property.property_title }}</p>
+                        <p>{{ property.price }}</p>
+                        </div>
+                        </a> 
+                  </div>
+                  {% endfor %}
+                </div>
+                
+        </div><br>
+                <div class="container bg-3 text-center">
+                   
+                <h3>Properties for Sale</h3><br>
+                <a href="/properties/" class="textlink">View all properties</a>
+                <div class="row">
+                {% for property in props %}  
+                  <div class="col-sm-3 shadow" style="border: solid #fff6f6 2px;height: 340px;box-shadow: 5px 3px 5px #d8d8d8;margin-top: 13px;width: 280px;margin-right: 4px;margin-left: 4px;">
+                        <a href="/property/{{property.property_title}}">
+                        <div class="pics">   
+                        <img src="{{ property.property_picture.url }}" class="img-responsive" style="box-shadow: 5px 3px 5px #ccc;" alt="Image">
+                        <p>{{ property.location }}</p>
+                        <p>{{ property.property_title }}</p>
+                        <p>{{ property.price }}</p>
+                        </div>
+                        </a> 
+                  </div>
+                  {% endfor %}
+                </div>
+                
+        </div><br>
+                      
+        <!-- subscribe -->
+        
+                <div class="container-fluid">
+                    <div class="row" style="margin-top: 19px;">
+                        <div class="col ">
+                            <div class="well subscribe" style="background-image:url({%static 'MySite/images/back.jpg'%})"><h3>Subscribe and get property alerts!</h3>
+                                {% include "includes/newsletter.html"%}
+                            </div>
+                                 {% if messages %}
+                                    <ul class="messages">
+                                        {% for message in messages %}
+                                        <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                        </div>
+                    </div>
+                </div>
+            
+                
+       
+    </div>
+
+	<section id="footer" style="background: #79e8c0 !important;">
+            
+        <div class="row text-center text-xs-center text-sm-left text-md-left" style="margin-top: -45px;">
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <img src="{%static 'MySite/images/logo.jpg'%}" class="img-responsive" style="height: 150px;width: 190px;margin-left: 60px;">
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5>Properties</h5>
+                <ul class="list-unstyled quick-links">
+                    <li><a href="/agent/"><i class="fa fa-angle-double-right"></i>Properties for Sale</a></li>
+                    <li><a href="javascript:void();"><i class="fa fa-angle-double-right"></i>Properties for Rent</a></li>
+                </ul>
+            </div>
+            <div class="col-xs-12 col-sm-4 col-md-4">
+                <h5>Desma Properties</h5>
+                <ul class="list-unstyled quick-links">
+                    <li><a href="/"><i class="fa fa-angle-double-right"></i>Home</a></li>
+                    <li><a href="/about/"><i class="fa fa-angle-double-right"></i>About</a></li>
+                    <li><a href="/contact/"><i class="fa fa-angle-double-right"></i>Contact us</a></li>
+                    <li><a href="/ListProperty/"><i class="fa fa-angle-double-right"></i>List Your Property</a></li>
+                </ul>
+            </div><div class="row" style="background: #79e8c0 !important;">
+            <div class="col-xs-12 col-sm-12 col-md-12 mt-2 mt-sm-2 text-center text-white">
+                <p class="h6">&copy All rights Reserved.<a class="text-green ml-2" target="_blank">Wambui Kagiri</a></p>
+            </div>
+        </div>
+        </div>
+        
+            
+    </section>
+</body>
+</html>

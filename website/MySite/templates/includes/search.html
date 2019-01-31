@@ -1,0 +1,40 @@
+
+{% load staticfiles%}
+                <h3>Search for properties near you</h3>      
+                <div class="search">
+                    <form action="{% url 'MySite:search' %}" method="GET">
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="row">
+                                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                                <select class="form-control search-slt" id="exampleFormControlSelect1">
+                                                    <option>Location</option>
+                                                    <option>Thika</option>
+                                                    <option>Ruiru</option>
+                                                    <option>Juja</option>
+                                                </select>
+                                            </div>
+                                            
+                                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                            <select class="form-control search-slt" id="exampleFormControlSelect1">
+                                                <option>To Rent or Buy</option>
+                                                <option>Rent</option>
+                                                <option>Buy</option>
+                                            </select>
+                                        </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                                <select class="form-control search-slt" id="exampleFormControlSelect1">
+                                                    <option>Residential or Commercial</option>
+                                                    <option>Residential</option>
+                                                    <option>Commercial</option>
+                                                </select>
+                                            </div>
+                                            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
+                                                <button type="submit" class="btn btn-primary wrn-btn">Search</button>
+                                            </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
