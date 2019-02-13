@@ -3,8 +3,8 @@ from bootstrap_datepicker.widgets import DatePicker
 
 from .models import subscriber
 from .models import listings_waiting_list
-from .models import contact_on_property
-from .models import booked_viewings,property
+from .models import propety
+
 
 class subscribe_form(forms.ModelForm):
 	class Meta:
@@ -16,11 +16,16 @@ class list_form(forms.ModelForm):
 		model = listings_waiting_list
 		fields = ['property_id','name','mobile_no','location','price','purpose','tyype']
 
+from .models import contact_on_property
 class customer_form(forms.ModelForm):
 	class Meta:
 		model = contact_on_property
 		fields = '__all__'
 
+class DateInput(forms.DateTimeInput):
+	input_type = 'date'
+
+from .models import booked_viewings	
 class booking_form(forms.ModelForm):
 	class Meta:
 		model = booked_viewings
@@ -28,9 +33,9 @@ class booking_form(forms.ModelForm):
 		
 class property_form(forms.ModelForm):
 	description = forms.CharField( widget=forms.Textarea )
-
+	
 	class Meta:
-		model = property
+		model = propety
 		fields = '__all__'
 
 class ListToProperty_Form(forms.ModelForm):

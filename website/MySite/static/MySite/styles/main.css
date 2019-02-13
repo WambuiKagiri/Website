@@ -4,16 +4,19 @@
     border-radius: 0;
     background: #e8e8e8 !important;
     height: 80px;
+    transition: top 0.3s;
+  }
 
-
+  body{
+    background: #ffffff !important;
   }
   .btn.btn-primary.wrn-btn{
-    background-color: #6bdeb4 !important;
+    background-color: #b0c6ff !important;
     color: #000;
   }
 
   .btn.btn-primary{
-    background-color: #6bdeb4 !important;
+    background-color: #b0c6ff !important;
     color: #000;
     /*margin-left: 190px;*/
   }
@@ -37,8 +40,8 @@
     min-height: 20px !important;
     padding: 19px !important;
     margin-bottom: 20px !important;
-    background-color: #f5f5f5 !important;
-    border: 1px solid #6bdeb4;
+    background-color: #ffffff !important;
+    border: 1px solid #acacac;
     
 }
     
@@ -118,11 +121,6 @@
   --input-padding-y: .75rem;
 }
 
-body {
-  background: #007bff !important;
-  background: linear-gradient(to right, #0062E6, #33AEFF)!important;
-}
-
 .card-signin {
   border: 0!important;
   border-radius: 1rem!important;
@@ -131,18 +129,20 @@ body {
 }
 
 .card-signin .card-title {
-  margin-bottom: 2rem !important;!important
+  margin-bottom: 2rem !important;
   font-weight: 300 !important;
   font-size: 1.5rem !important;
 }
 
 .card-signin .card-img-left {
-  width: 45 !important%;
+  width: 45% !important;
   /* Link to your background image using in the property below! */
   background: scroll center url('https://source.unsplash.com/WEQbe2jBg40/414x512') !important;
   background-size: cover !important;
 }
-
+body{
+  background: #ffffff !important;
+}
 .card-signin .card-body {
   padding: 2rem;
 }
@@ -266,3 +266,91 @@ section .section-title {
     margin-bottom: 10px;
 }
 }
+/* carousel */
+.img-responsive,
+.thumbnail > img,
+.thumbnail a > img,
+.carousel-inner > .item > img,
+.carousel-inner > .item > a > img {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+/* ------------------- Carousel Styling ------------------- */
+
+.carousel-inner {
+  border-radius: 15px;
+}
+
+.carousel-caption {
+  background-color: rgba(0,0,0,.5);
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 10;
+  padding: 0 0 10px 25px;
+  color: #fff;
+  text-align: left;
+}
+
+.carousel-indicators {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 100%;
+  z-index: 15;
+  margin: 0;
+  padding: 0 25px 25px 0;
+  text-align: right;
+}
+
+.carousel-control.left,
+.carousel-control.right {
+  background-image: none;
+}
+
+/* dropdown menu*/
+/* Dropdown Button */
+.dropbtn {
+  background-color: #4CAF50;
+  color: white;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+/* The container <div> - needed to position the dropdown content */
+.dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+/* Dropdown Content (Hidden by Default) */
+.dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 160px;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+}
+
+/* Links inside the dropdown */
+.dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+/* Change color of dropdown links on hover */
+.dropdown-content a:hover {background-color: #ddd;}
+
+/* Show the dropdown menu on hover */
+.dropdown:hover .dropdown-content {display: block;}
+
+/* Change the background color of the dropdown button when the dropdown content is shown */
+.dropdown:hover .dropbtn {background-color: #3e8e41;}

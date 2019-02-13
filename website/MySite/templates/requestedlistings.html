@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/waitinglistings.css'%}" />
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/agent.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{%static 'MySite/plugins/font-awesome-4.7.0/css/font-awesome.min.css'%}">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+</head>
+<body class="home">
+  <div class="container-fluid display-table">
+        <div class="row display-table-row">
+            <div class="col-md-2 col-sm-1 hidden-xs display-table-cell v-align box" id="navigation">
+              <div class="logo">
+                  <a hef="agent.html"><img src="" alt="logo" class="hidden-xs hidden-sm">
+                      <img src="" alt="logo" class="visible-xs visible-sm circle-logo">
+                  </a>
+              </div>
+              <div class="navi">
+                  <ul>
+                      <li><a href="/agent/"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Home</span></a></li>
+                      <li><a href="#"><i class="fa fa-tasks" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Messages</span></a></li>
+                      <li><a href="/requestedlistings/"><i class="fa fa-bar-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm"> Waiting Listings</span></a></li>
+                      <li><a href="/bookedviewings/"><i class="fa fa-user" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Booked viewings</span></a></li>
+                      <li><a href="#"><i class="fa fa-calendar" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Emails</span></a></li>
+                      <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Settings</span></a></li>
+                  </ul>
+              </div>
+            </div>
+          <div class="col-md-10 col-sm-11 display-table-cell v-align">
+              <!--<button type="button" class="slide-toggle">Slide Toggle</button> -->
+              <div class="row">
+                  <header>
+                      <div class="col-md-7">
+                          <nav class="navbar-default pull-left">
+                              <div class="navbar-header">
+                                  <button type="button" class="navbar-toggle collapsed" data-toggle="offcanvas" data-target="#side-menu" aria-expanded="false">
+                                      <span class="sr-only">Toggle navigation</span>
+                                      <span class="icon-bar"></span>
+                                      <span class="icon-bar"></span>
+                                      <span class="icon-bar"></span>
+                                  </button>
+                              </div>
+                          </nav>
+                          <div class="search hidden-xs hidden-sm">
+                              <input type="text" placeholder="Search" id="search">
+                          </div>
+                      </div>
+                      <div class="col-md-5">
+                          <div class="header-rightside">
+                              <ul class="list-inline header-top pull-right">
+                                  <li><a href="#"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
+                                  <li>
+                                      <a href="#" class="icon-info">
+                                          <i class="fa fa-bell" aria-hidden="true"></i>
+                                          <span class="label label-primary">3</span>
+                                      </a>
+                                  </li>
+                                  {% for agent in agents %} 
+                                  <li class="dropdown">
+                                      <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="{{ agent.profilepic.url }}" alt="">
+                                          <b class="caret"></b></a>
+                                      <ul class="dropdown-menu">
+                                          <li>
+                                              <div class="navbar-content">
+                                                  <span>{{ agent.username }}</span>
+                                                  <p class="text-muted small">
+                                                    {{ agent.email }}
+                                                  </p>
+                                                  <div class="divider">
+                                                  </div>
+                                                  <a href="#" class="view btn-sm active">View Profile</a>
+                                              </div>
+                                          </li>
+                                      </ul>
+                                  </li>
+                                  {% endfor %}
+                              </ul>
+                          </div>
+                      </div>
+                  </header>
+              </div>
+          </div>
+        </div>
+
+        <!--  -->
+        <div style="max-width: 60%;margin-left: 22%;margin-top: -37%;">
+            <h3>Recent submitted listings</h3>
+            {% for listings_waiting_list in listt %}
+            
+                <div class="well" style="border-color: #969698;">
+                    <div class="col-md-6">
+                        <p><b>Owner:</b> {{ listings_waiting_list.name }}</p>
+                        <br>
+                        <p><b>Type:</b>{{ listings_waiting_list.purpose }} for {{ listings_waiting_list.purpose }}</p>
+                        <br>
+                    </div>
+                    <div class="col-md-6">
+                        <p><b>Location:</b> {{ listings_waiting_list.location }}</p>
+                        <br>
+                        <p><b>Asking price:</b>{{ listings_waiting_list.price }}</p>
+                        <br>
+                    </div>
+                    <a href="" style="margin-left: 60%;" class="add-project" data-toggle="modal" data-target="#add_project">
+                        Message Owner
+                    </a>
+                    
+
+                </div>
+            {% endfor %}
+
+            <div id="add_project" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+    
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                        <div class="modal-header login-header">
+                            <button type="button" class="close" data-dismiss="modal">×</button>
+                            <h4 class="modal-title">Message owner</h4>
+                        </div>
+                        <div class="modal-body">
+                            
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="cancel" data-dismiss="modal">Close</button>
+                            <button type="button" class="add-project" data-dismiss="modal">Save</button>
+                        </div>
+                    </div>
+    
+                </div>
+                
+            </div>
+        </div>
+        
+        <div class="pagination" style="margin-left: 60%;">
+            <span class="step-links">
+                {% if listt.has_previous %}
+                    <a href="?page={{ listt.previous_page_number }}">Previous</a>
+                {% endif %}  
+            
+                <span class="current">
+                    Page {{ listt.number }} of {{ listt.paginator.num_pages }}
+                </span>
+                {% if listt.has_next %}  
+                    <a href="?page={{ listt.next_page_number }}">Next </a>
+                {% endif %}
+            </span>
+        </div>
+          <!-- Modal -->
+
+
+    </div>
+</body>
+</html>
+              

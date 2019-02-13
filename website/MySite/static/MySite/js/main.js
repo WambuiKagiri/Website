@@ -7,7 +7,18 @@ $(document).ready(function() {
         interval: 5000
     })
 });
-
+$(document).ready(function() {
+	$('.deliverable-infos').hide();
+	$('.dropdown-deliverable').on('click', function(e) {
+			console.log("dropdown toggled!");
+			e.preventDefault();
+			e.stopPropagation();
+			//get targeted element via data-for attribute
+			var dataFor = $(this).data('for');
+			var idFor = $(dataFor);
+			idFor.slideToggle();
+	}); 
+});
 function initGoogleMap()
 	{
 		var myLatlng = new google.maps.LatLng(-1.177461,36.930013);

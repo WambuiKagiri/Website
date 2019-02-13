@@ -61,10 +61,10 @@
             </div>
         </div>
 
-        <div class="jumbotron">
-           <!--  <h6>Most people are extremely careful about their choice of doctor, lawyer or stockbroker, yet surprisingly casual about the next most important professional in the lives - their real estate agent.</h6>
-            <h6>Our skilled professionals are able to offer superior cutting edge service, maintain constant communication, secure the best deals and live by our values of delivering absolute honesty and integrity when securing the best possible price for your home.</h6> -->
-        </div>
+        <!-- <div class="jumbotron">
+            <h6>Most people are extremely careful about their choice of doctor, lawyer or stockbroker, yet surprisingly casual about the next most important professional in the lives - their real estate agent.</h6>
+            <h6>Our skilled professionals are able to offer superior cutting edge service, maintain constant communication, secure the best deals and live by our values of delivering absolute honesty and integrity when securing the best possible price for your home.</h6> 
+        </div> -->
         <div class="container">
             
             <div class="col-md-8">
@@ -83,7 +83,7 @@
                                 <input type="text" class="form-control" placeholder="Name" name="name">
                             </div>
                             <div class="col-md-6">
-                                <input type="number" class="form-control" placeholder="Mobile number" name="mobile_no">
+                                <input type="tel" class="form-control" placeholder="Mobile number" name="mobile_no">
                             </div>
                         </div>
                         <br><br>
@@ -114,7 +114,7 @@
                             </div>
                         </div>
                         <br><br>
-                        <button class="btn btn-info btn-lg" type="submit" style="background-color: #6bdeb4 !important;">Send</button>
+                        <button class="btn btn-info btn-lg" type="submit" style="background-color: #b0c6ff !important;">Send</button>
                         {% if messages %}
                             <ul class="messages">
                                 {% for message in messages %}
@@ -127,13 +127,15 @@
             </div>
             <div class="col-md-4">
                 <div>
-                    <div class="well" >
+                    <div class="well" style="height: 280px;" >
                         <p><b>Subscribe and get alerts from us!</b></p>
                             <form action="#">
                                     <div class="input-group">
-                                        <input class="btn btn-lg" name="email" id="email" type="email" placeholder="Your Email" required>
+                                        <input style="    border-color: #a0a0a0;
+                                        margin-top: 18%;" class="btn btn-lg" name="email" id="email" type="email" placeholder="Your Email" required>
                                         <br><br>
-                                        <button class="btn btn-info btn-lg" type="submit" style="    background-color: #6bdeb4 !important;">Subscribe</button>
+                                        <button class="btn btn-info btn-lg" type="submit" style="background-color: #b0c6ff !important;    margin-top: 20%;
+                                        margin-left: 32%;">Subscribe</button>
                                     </div>
                             </form>  
                     </div> 

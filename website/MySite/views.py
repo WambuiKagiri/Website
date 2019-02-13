@@ -3,8 +3,26 @@ from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, HttpResponseRedirect
 from django.views.generic import TemplateView
 from django.views import generic
+from django.template.context_processors import csrf
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_protect
+from django.views.decorators.csrf import ensure_csrf_cookie
+from django.utils.decorators import method_decorator
+from django.contrib.auth import login as clogin
+from django.contrib.auth import authenticate
+from django.utils.safestring import mark_safe
+from django.shortcuts import render_to_response
+from django.template import RequestContext
+from django.contrib.auth.decorators import user_passes_test
+import json
+from django.contrib.auth import (
+authenticate,
+get_user_model,
+login,
+logout,
+	)
 #imported forms
 from .forms import subscribe_form
 from .forms import list_form
@@ -16,8 +34,8 @@ from .models import subscriber
 from .models import listings_waiting_list
 from .models import contact_on_property
 from .models import booked_viewings
-from .models import property
-
+from .models import propety
+from .models import Agent
 
 
 import re
@@ -60,35 +78,46 @@ def get_query(query_string, search_fields):
 
 class HomePageView(TemplateView):
 	def get(self, request, **kwargs):
-		propertys = property.objects.all().filter(rent_buy='Rent')[:4]
-		props = property.objects.all().filter(rent_buy='Buy')[:4]
-		return render(request, 'index.html', {'propertys':propertys,'props':props})
-
+		propertys = propety.objects.all().filter(rent_buy='Rent')[:4]
+		props = propety.objects.all().filter(rent_buy='Buy')[:4]
+		propetys = propety.objects.all()
+		return render(request, 'index.html', {'propertys':propertys,'props':props, 'propetys':propetys})
+	@csrf_protect
+	@ensure_csrf_cookie
+	@login_required(login_url='/accounts/login/')
+	# @user_passes_test(lambda u: u.groups.filter(name='Clients').exists())
 	def post(self, request, **kwargs):
 		if request.method == 'POST':
 			form = subscribe_form(request.POST)
 			if form.is_valid():
 				form.save()
+				messages.success(request, "Your message has been sent")
 				return HttpResponseRedirect('/')
-				messages.success(request, "Thank you for subscribing, we promise we won't spam!")
+
+			else:
+				return HttpResponseRedirect('/')
+				
 
 		else:
 			return render(request, 'properties.html', {'form':form})
 
-class SearchPageView(TemplateView):
-	def get(self,request, **kwargs):
-		return render(request, 'properties.html')
+	def search(request): 
+		if request.method == 'GET':
+			query = request.GET.get('q')
+			submit = request.GET.get('submit')
 
-	def search(request):
-		query_string = ''
-		found_entries = None
-		if ('q' in request.GET) and request.GET['q'].strip():
-			query_string = request.GET['q']
-			entry_query = get_query(query_string, ['rent_buy', 'property_type','location'])
-			found_entries = Entry.objects.filter(entry_query).order_by('-property_id')
-		return render_to_response('properties.html',
-                          { 'query_string': query_string, 'found_entries': found_entries },
-                          context_instance=RequestContext(request))
+			if query is not None:
+				lookups = Q(location__icontains=query) | Q(rent_buy__icontains=query) | Q(property_type__icontains=query)
+				results = propety.objects.filter(lookups).distinct()
+				context = {'results':results,'submit':submit}
+				return render(request,'properties.html',context)
+
+			else:
+				return render(request,'properties.html')
+
+		else:
+			return render(request,'properties.html')
+
 
 
 
@@ -119,65 +148,51 @@ class ListPropertyPageView(TemplateView):
 			form = list_form(request.POST)
 			if form.is_valid():
 				form.save()
+				
 				return render(request, 'ListProperty.html', {'form':form})
-				messages.info(request, "Your details have been received our agent will get back to you shortly")
+				
 
 		else:
 			return render(request, 'ListProperty.html', {'form':form})
 	from django.contrib import messages
-	def message(request):
-		messages.add_message(request, messages.success, 'Your details have been reeived')
 	
 
 
 class PropertyPageView(TemplateView):
-	def get(self, request, property_title, **kwargs): 
-		propertys = property.objects.all().filter(property_title= property_title)
+	def get(self, request, property_title,pk, **kwargs): 
+		propertys = propety.objects.all().filter(property_title= property_title)
 		return render(request, 'property.html', {'propertys':propertys})
+
+	method_decorator(csrf_protect)
+	method_decorator(ensure_csrf_cookie)
 			
-	def post(request,property_title):
+	def post(self, request,**kwargs):
+		if request.method == 'POST':
+			form = customer_form(request.POST)
+			if form.is_valid():
+				form.save()
+				messages.success(request, "Your message has been sent")
+				return redirect('property.html')
+
+			else:
+				return render(request, 'property.html', {'form':form})
+
+		else:
+			redirect('property.html') 
+
+	def post(self, request, **kwargs):
 		if request.method == 'POST':
 			form = booking_form(request.POST)
 			if form.is_valid():
-				booking_id = form.cleaned_data['booking_id']
-				name = form.cleaned_data['name']
-				date = form.cleaned_data['date']
-				mobile_no= form.cleaned_data['mobile_no']
-				booked_viewings.create(booking_id=booking_id, name=name, date=date, mobile_no=mobile_no)
-				return render(request, 'property.html', {'form':form})
-
+				form.save()
+				return HttpResponseRedirect('/')
+			
 			else:
-				render(request, 'property.html', {'form':form})
-
-class SuccessPageView(TemplateView):
- 	def get(self, request, **kwargs): 
- 		return render(request, 'success.html', context=None)
-		
-class BookViewingPageView(TemplateView):
- 	def get(self, request, property_title, **kwargs):
- 		propertyy = properties.objects.all().filter(property_title=property_title) 
- 		return render(request, 'BookViewing.html', {'propertyy':propertyy})
- 	def test_session(request):
- 		request.session.set_test_cookie()
- 		return HttpResponse('/success/')
-
- 	def post(self,request, **kwargs):
- 		if request.method=='POST':
- 			form = booking_form(request.POST)
- 			if form.is_valid():
- 				form.save()
- 				return HttpResponseRedirect('/success/')
- 		else:
- 			return render(request,'BookViewing.html',{'form':form})
- 			
-class LatestPageView(TemplateView):
-	def get(self, request, **kwargs):
-		propertyy = properties.objects.all()
-		return render(request, 'index.html', {'propertyy':propertyy})
+				render(request,'property.html', {'form':form})
 
 class PropertiesPageView(TemplateView):
 	def get(self, request, **kwargs):
-		propertyss = property.objects.all()
+		propertyss = propety.objects.all()
 		paginator = Paginator(propertyss,4)
 		
 
@@ -191,10 +206,70 @@ class PropertiesPageView(TemplateView):
 
 		return render(request, 'properties.html', {'propertyss':propertyss})
 
-class AgentPageView(TemplateView):
-	def get(self,request, **kwargs):
-		return render(request,'agent.html')
+@csrf_protect
+@ensure_csrf_cookie
+@login_required(login_url='/accounts/login/')
+def dashboard(request):
+	return render(request, 'agent.html')
 
-class AgentLogInPageView(TemplateView):
+class ListingsPageView(TemplateView):
 	def get(self,request, **kwargs):
-		return render(request,'clientlogin.html')
+		listt = listings_waiting_list.objects.all()
+		paginator = Paginator(listt,3)
+
+		page = request.GET.get('page')
+		try:
+			listt = paginator.page(page)
+		except PageNotAnInteger:
+			listt = paginator.page(1)
+		except EmptyPage:
+			listt = paginator.page(paginator.num_pages)
+
+		return render(request,'requestedlistings.html',{'listt':listt})
+
+class BookingsPageView(TemplateView):
+	def get(self,request, **kwargs):
+		books = booked_viewings.objects.all()	
+		return render(request,'bookedviewings.html',{'books':books})
+
+
+def chatindex(request):
+    return render(request, 'chatindex.html', {})
+
+def room(request, room_name):
+    return render(request, 'room.html', {
+        'room_name_json': mark_safe(json.dumps(room_name))
+    })
+
+class chats(TemplateView):
+	def get(self,request, **kwargs):	
+		return render(request,'message.html')
+
+class LoginView(TemplateView):
+	def get(self,request, **kwargs):
+		return render(request, 'login.html',context=None)
+	@csrf_protect
+	@ensure_csrf_cookie
+	def login(request):
+		if request.method == 'POST':
+			form = LoginForm(request.POST)
+			if form.is_valid():
+				username = form.cleaned_data.get("username")
+				password = form.cleaned_data.get("password")
+				user = authenticate(username=username,password=password)
+
+				login(request,user)
+				if user.groups.filter(name='Agents').exists():
+					return HttpResponseRedirect('/agent/')
+				if user.groups.filter(name='Clients').exists():
+					return HttpResponseRedirect('/')
+
+			else:
+				return render(request, 'login.html',{"form":form})
+
+		else:
+			form =LoginForm()
+			args = {'form':form}
+			args.update(csrf(request))
+			args['form'] = LoginForm
+			return render(request, 'login.html',args)
