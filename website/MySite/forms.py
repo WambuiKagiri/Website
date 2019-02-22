@@ -1,6 +1,8 @@
 from django import forms
 from bootstrap_datepicker.widgets import DatePicker
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
 
+from .models import Agent
 from .models import subscriber
 from .models import listings_waiting_list
 from .models import propety
@@ -42,3 +44,15 @@ class ListToProperty_Form(forms.ModelForm):
 	class Meta:
 		model = listings_waiting_list
 		fields = '__all__'
+
+class CustomUserCreationForm(UserCreationForm):
+
+    class Meta(UserCreationForm):
+        model = Agent
+        fields = '__all__'
+
+class CustomUserChangeForm(UserChangeForm):
+
+    class Meta:
+        model = Agent
+        fields = '__all__'

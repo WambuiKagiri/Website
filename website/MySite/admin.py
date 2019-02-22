@@ -2,13 +2,16 @@ from django.contrib import admin
 from django.contrib import messages
 from django.shortcuts import render
 from django import forms
+from django.contrib.auth import get_user_model
+from django.contrib.auth.admin import UserAdmin
 
 from .models import subscriber
 from .models import listings_waiting_list
 from .models import contact_on_property
 from .models import propety
 from .models import booked_viewings
-
+from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .models import Agent
 
 admin.site.register(contact_on_property)
 admin.site.register(booked_viewings)
@@ -51,3 +54,10 @@ class listings_waiting_listAdmin(admin.ModelAdmin):
 admin.site.register(listings_waiting_list,listings_waiting_listAdmin)
 
 
+class CustomUserAdmin(UserAdmin):
+    add_form = CustomUserCreationForm
+    form = CustomUserChangeForm
+    model = Agent
+    list_display = ['email', 'fname','lname','location','phone1','gender']
+
+admin.site.register(CustomUser, CustomUserAdmin)

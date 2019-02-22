@@ -45,7 +45,6 @@ INSTALLED_APPS = [
     'accounts',
     'MySite',
     'ajax_search',
-    
 ]
 
 MIDDLEWARE = [
@@ -54,7 +53,6 @@ MIDDLEWARE = [
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
-    
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -168,3 +166,4 @@ AJAX_SEARCH_LIMIT = 8
 AJAX_SEARCH_HELPER = 'app.views.search_helper'
 
 SEARCH_RESULT_TEMPLATE = 'search_results.html'
+
