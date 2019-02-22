@@ -3,6 +3,7 @@ from django.forms import ModelForm
 from django.contrib import admin
 from django.contrib.auth.models import User
 
+
 # Create your models here.
 class subscriber(models.Model):
 	email = models.CharField(max_length=150)
@@ -64,7 +65,32 @@ class property_admin(admin.ModelAdmin):
 class Agent(models.Model):
 	location = models.CharField(max_length=100)
 	user = models.ForeignKey(User,on_delete=models.CASCADE)
+	fname = models.CharField(max_length=15)
+	lname = models.CharField(max_length=15)
+	email = models.CharField(max_length=100)
+	phone1 = models.IntegerField()
+	phone2 = models.IntegerField()
+	profilepic = models.FileField(upload_to='',blank=True)
+	gender = models.CharField(max_length=10)
+
 
 	def __unicode__(self):
 		return self.username
 
+class Client(models.Model):
+	user = models.ForeignKey(User,on_delete=models.CASCADE)
+	fname = models.CharField(max_length=15)
+	lname = models.CharField(max_length=15)
+	email = models.CharField(max_length=100)
+	phone1 = models.IntegerField()
+	phone2 = models.IntegerField()
+	profilepic = models.FileField(upload_to='',blank=True)
+
+
+class message(models.Model):
+	author = models.ForeignKey(User, on_delete=models.CASCADE)
+	content = models.TextField()
+	timestamp = models.DateTimeField(auto_now_add=True)
+
+	def __str__(self):
+		return self.author.username 

@@ -4,7 +4,7 @@ from django.contrib.auth import get_user_model
 from channels.consumer import SyncConsumer, AsyncConsumer
 from channels.db import database_sync_to_async
 
-
+from .models import message
 
 
 User = get_user_model()
@@ -28,7 +28,7 @@ class TaskConsumer(AsyncConsumer):
 
     @database_sync_to_async
     def create_welcome_chat_message(self, thread, user, message):
-        return ChatMessage.objects.create(thread=thread, user=user, message=message)
+        return message.objects.create(thread=thread, user=user, message=message)
 
 
 class ChatConsumer(AsyncConsumer):
@@ -101,5 +101,5 @@ class ChatConsumer(AsyncConsumer):
     @database_sync_to_async
     def create_chat_message(self, user, message):
         thread = self.cfe_chat_thread
-        return ChatMessage.objects.create(thread=thread, user=user, message=message)
+        return message.objects.create(thread=thread, user=user, message=message)
 

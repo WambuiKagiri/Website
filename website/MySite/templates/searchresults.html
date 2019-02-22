@@ -1,4 +1,20 @@
-{% for %}
+{% load static %}
+<!-- 
+{% if results.count > 0 %}
+{% for result in results %}
+<li><p>
+<strong>Service Name: </strong> {{ propety.location }}<br><strong>Company Name: </strong>{{ article.company_name}}<br> 
+ <strong>Description: </strong>  {{article.description}}<br><strong>Location and Contacts: </strong>  {{article.location}}<br>   {{article.email }}<br>0{{article.cellphone}}<br> -->
+<!-- <a href="/bookings/">Book an appointment or make an inquiry</a></p></li>
 
-
+ 
 {% endfor %}
+{% else %}
+<li> None to show!</li>
+{% endif %}  -->
+
+{% if found_entries %}
+   {% for field in found_entries %}
+        {{ model.field }}
+   {% endfor %}
+{% endif %}

@@ -29,7 +29,7 @@ SECRET_KEY = 'im&^ji)v#rfelt++!1k*yxm92(mtqidqs)3t#x87k45yh4v8_-'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*" ]
 
 
 # Application definition
@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'MySite',
-    
+    'ajax_search',
     
 ]
 
@@ -52,8 +52,9 @@ MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
+    
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
@@ -87,6 +88,7 @@ CHANNEL_LAYERS = {
         'CONFIG': {
             "hosts": [('127.0.0.1', 6379)],
         },
+        'ROUTING': 'website.routing.channel_routing',
     },
 }
 # Database
@@ -161,3 +163,8 @@ STATIC_ROOT = os.path.join(REPOSITORY_ROOT, 'static/')
 MEDIA_URL = '/MySite/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'MySite/static/MySite/images')
 
+AJAX_SEARCH_LIMIT = 8
+
+AJAX_SEARCH_HELPER = 'app.views.search_helper'
+
+SEARCH_RESULT_TEMPLATE = 'search_results.html'

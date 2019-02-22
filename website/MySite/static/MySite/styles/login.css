@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css?family=Numans');
 
 html,body{
-background-image: url('https://cdn.pixabay.com/photo/2017/08/02/01/20/home-2569470__340.jpg');
+ background-color: rgb(255, 255, 255) !important;
 background-size: cover;
 background-repeat: no-repeat;
 height: 100%;
@@ -18,7 +18,7 @@ height: 370px;
 margin-top: auto;
 margin-bottom: auto;
 width: 400px;
-background-color: rgba(0,0,0,0.5) !important;
+background-color: rgb(255, 255, 255) !important;
 }
 
 .social_icon span{
@@ -33,7 +33,7 @@ cursor: pointer;
 }
 
 .card-header h3{
-color: white;
+color: #080808;
 }
 
 .social_icon{
