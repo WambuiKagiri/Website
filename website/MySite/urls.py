@@ -8,7 +8,7 @@ from MySite import views as mysite_views
 from django.urls import path
 from . import views
 from django.contrib.auth import views as auth_views
-from MySite.consumers import ChatConsumer, TaskConsumer
+from MySite.consumers import ChatConsumer
 from MySite.views import dashboard,home,subscribe,search,listproperty,message
 from MySite.views import agentprofile
 from django.views.generic import TemplateView
@@ -22,7 +22,7 @@ admin.site.index_title ='Desma Administration'
 urlpatterns = [
 	url(r'^$', home ,name='index'),
 	url(r'^chatindex/$', views.chatindex,name='chatindex'),
-	# url(r'^(?P<room_name>[^/]+)/$', views.room, name='room'),
+	# url(r'^(?P<room_name>[^/]+)/$', views.message, name='room'),
 	url(r'^admin/', admin.site.urls),
 	url(r'^about/$', views.AboutPageView.as_view(),name='about'),
 	url(r'^contact/$', views.ContactPageView.as_view(),name='contact'),

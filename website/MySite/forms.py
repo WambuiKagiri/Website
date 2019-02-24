@@ -1,8 +1,9 @@
 from django import forms
 from bootstrap_datepicker.widgets import DatePicker
-from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from django.db import transaction
+from django.contrib.auth.forms import UserCreationForm
+# from .models import Agent
 
-from .models import Agent
 from .models import subscriber
 from .models import listings_waiting_list
 from .models import propety
@@ -35,6 +36,7 @@ class booking_form(forms.ModelForm):
 		
 class property_form(forms.ModelForm):
 	description = forms.CharField( widget=forms.Textarea )
+	location = forms.CharField(max_length=100)
 	
 	class Meta:
 		model = propety
@@ -45,14 +47,16 @@ class ListToProperty_Form(forms.ModelForm):
 		model = listings_waiting_list
 		fields = '__all__'
 
-class CustomUserCreationForm(UserCreationForm):
+# from .models import client
+# class clientsignup(UserCreationForm):
+# 	class Meta(UserCreationForm.Meta):
+# 		model = client
+# 		fields = '__all__'
 
-    class Meta(UserCreationForm):
-        model = Agent
-        fields = '__all__'
-
-class CustomUserChangeForm(UserChangeForm):
-
-    class Meta:
-        model = Agent
-        fields = '__all__'
+# 	@transaction.atomic
+# 	def save(self):
+# 		user = super().save(commit=False)
+# 		user.is_client = True
+# 		user.save()
+# 		client = client.objects.create(user=user)
+# 		return user

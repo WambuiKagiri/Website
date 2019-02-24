@@ -63,28 +63,17 @@ class property_admin(admin.ModelAdmin):
 	locatiom = models.CharField(max_length=1000)
 
 
-# class Agent(AbstractUser):
-# 	location = models.CharField(max_length=100)
-# 	fname = models.CharField(max_length=15)
-# 	lname = models.CharField(max_length=15)
-# 	email = models.CharField(max_length=100)
-# 	phone1 = models.IntegerField()
-# 	phone2 = models.IntegerField()
-# 	profilepic = models.FileField(upload_to='',blank=True)
-# 	gender = models.CharField(max_length=10)
 
-
-# 	def __str__(self):
-# 		return self.fname
-
-class Client(models.Model):
-	user = models.ForeignKey(User,on_delete=models.CASCADE)
+class client(models.Model):
+	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 	fname = models.CharField(max_length=15)
 	lname = models.CharField(max_length=15)
 	email = models.CharField(max_length=100)
 	phone1 = models.IntegerField()
 	phone2 = models.IntegerField()
 	profilepic = models.FileField(upload_to='',blank=True)
+
+
 
 
 class message(models.Model):

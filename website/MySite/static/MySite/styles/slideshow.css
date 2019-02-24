@@ -9,7 +9,7 @@
 }
 .cb-slideshow:after {
     content: '';
-    background: transparent url(../images/pattern.png) repeat top left;
+    
 }
 .cb-slideshow li span {
     width: 100%;
@@ -51,9 +51,9 @@
     line-height: 200px;
 	color: rgba(169,3,41, 0.8);
 }
-.cb-slideshow li:nth-child(1) span { background-image: url('https://cdn.pixabay.com/photo/2016/06/24/10/47/architecture-1477041__340.jpg') }
+.cb-slideshow li:nth-child(1) span { background-image: url(../MySite/images/1.jpg) }
 .cb-slideshow li:nth-child(2) span {
-    background-image: url('https://cdn.pixabay.com/photo/2016/06/24/10/47/architecture-1477041__340.jpg');
+    background-image: url(..MySite/images/2.jpg);
     -webkit-animation-delay: 6s;
     -moz-animation-delay: 6s;
     -o-animation-delay: 6s;

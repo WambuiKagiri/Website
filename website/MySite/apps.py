@@ -1,6 +1,6 @@
 from django.apps import AppConfig
 
 
-class miteConfig(AppConfig):
+class MysiteConfig(AppConfig):
     name = 'MySite'
-    label = 'mite'
+    

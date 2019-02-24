@@ -15,18 +15,18 @@
 <body class="home">
   <div class="container-fluid display-table">
     {% include 'includes/agenthead.html' %}
-
-  </div>
-<button type="submit"  id="view1" onclick="viewBookings()">View Booked Viewings</button><br>
+    <button type="submit"  id="view1" onclick="viewBookings()">View Booked Viewings</button><br>
 <button type="submit" id="view2" onclick="viewListings()">View listings</button><br> 
+  </div>
+
   <script>
       function viewBookings(){
     document.getElementById('Bookings').style.display = 'none';
-    document.getElementById('Listings').style.display = 'inline';
+    document.getElementById('Listings').style.display = 'block';
 
 }
 function viewListings(){
-    document.getElementById('Bookings').style.display = 'inline';
+    document.getElementById('Bookings').style.display = 'block';
     document.getElementById('Listings').style.display = 'none';
 
 }
@@ -62,7 +62,7 @@ function viewListings(){
             <th>Price</th>
             <th>Edit</th>
         </tr>
-        {% for listings_waiting_list in listt %}
+        {% for listings_waiting_list in lisstt %}
         <tr>
             <td> {{ listings_waiting_list.name }}</td>
             <td>{{ listings_waiting_list.purpose }}</td>
@@ -84,7 +84,7 @@ function viewListings(){
                 <th>Name</th>
                 <th>Mobile Number</th>
             </tr>
-            {% for booked_viewings in books %}
+            {% for booked_viewings in bookin %}
             <tr>
                 <td> {{ booked_viewings.booking_id }}</td>
                 <td>{{ booked_viewings.date }}</td>

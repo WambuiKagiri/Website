@@ -39,7 +39,7 @@ from .models import listings_waiting_list
 from .models import contact_on_property
 from .models import booked_viewings
 from .models import propety
-from .models import Agent
+
 
 
 import re
@@ -215,8 +215,8 @@ class PropertiesPageView(TemplateView):
 @login_required(login_url='/accounts/login/')
 @user_passes_test(lambda u: u.groups.filter(name='Agents').exists())
 def dashboard(request):
-	listt = listings_waiting_list.objects.all()
-	books = booked_viewings.objects.all()
+	lisstt = listings_waiting_list.objects.all()
+	bookin = booked_viewings.objects.all()
 	paginator = Paginator(listt,8)
 	
 	page = request.GET.get('page')
@@ -228,7 +228,7 @@ def dashboard(request):
 	except EmptyPage:
 		listt = paginator.page(paginator.num_pages)
 	
-	return render(request, 'agent.html',{'listt':listt,'books':books})
+	return render(request, 'agent.html',{'lisstt':lisstt,'bookin':bookin})
 	# else:
 	# 	return redirect('/accounts/login/')
 
@@ -256,14 +256,13 @@ class BookingsPageView(TemplateView):
 def chatindex(request):
     return render(request, 'chatindex.html', {})
 
-def room(request, room_name):
-    return render(request, 'room.html', {
-        'room_name_json': mark_safe(json.dumps(room_name))
-    })
+def message(request, room_name):
+    return render(request, 'message.html', {
+       'room_name_json': mark_safe(json.dumps(room_name))
+   })
 
 
-def message(request, **kwargs):	
-	return render(request,'message.html',context=None)
+
 
 
 def agentprofile(request):

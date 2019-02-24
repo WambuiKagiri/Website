@@ -68,7 +68,7 @@
 			  <span class="time_date"> 11:01 AM    |    June 9</span></div>
 		  </div>
 		</div>
-		<div class="outgoing_msg">jg 
+		<div class="outgoing_msg">
 		  <div class="sent_msg">
 			<p>Test which is a new approach to have all
 			  solutions</p>
@@ -78,13 +78,14 @@
 	  </div>
 	  <div class="type_msg">
 		<div class="input_msg_write">
-		  <input type="text" class="write_msg" placeholder="Type a message" />
-		  <button class="msg_send_btn" type="button"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
+		  <input type="text" class="write_msg" placeholder="Type a message" id="chat-message-input"/>
+		  <button class="msg_send_btn" type="button" id="chat-message-submit"><i class="fa fa-paper-plane" aria-hidden="true"></i></button>
 		</div>
 	  </div>
 	</div>
   </div>
 </div>
+
 <script>
 	var roomName = {{ room_name_json }};
 

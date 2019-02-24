@@ -24,7 +24,7 @@ from django.contrib.auth import views
 from django.contrib.auth import views as auth_views
 from accounts.views import (login,listproperty,register)
 from MySite.views import dashboard,home,subscribe,search,agentprofile
-from MySite.consumers import ChatConsumer, TaskConsumer
+from MySite.consumers import ChatConsumer
 from django.views.generic import TemplateView
 
 urlpatterns = [

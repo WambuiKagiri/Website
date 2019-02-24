@@ -28,7 +28,7 @@ class TaskConsumer(AsyncConsumer):
 
     @database_sync_to_async
     def create_welcome_chat_message(self, thread, user, message):
-        return message.objects.create(thread=thread, user=user, message=message)
+        return ChatMessage.objects.create(thread=thread, user=user, message=message)
 
 
 class ChatConsumer(AsyncConsumer):
@@ -101,5 +101,5 @@ class ChatConsumer(AsyncConsumer):
     @database_sync_to_async
     def create_chat_message(self, user, message):
         thread = self.cfe_chat_thread
-        return message.objects.create(thread=thread, user=user, message=message)
+        return ChatMessage.objects.create(thread=thread, user=user, message=message)
 

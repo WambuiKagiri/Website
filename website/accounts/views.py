@@ -19,7 +19,7 @@ from django.contrib.auth.decorators import user_passes_test
 import json
 from django import forms
 # Create your views here.
-from .forms import loginform
+from .forms import loginform,RegistrationForm
 from django.contrib.auth import get_user_model
 user = get_user_model()
 
@@ -56,23 +56,23 @@ def login(request):
 @csrf_protect
 @ensure_csrf_cookie
 def register(request):
-	# if request.method =='POST':
-	# 	form = RegistrationForm(request.POST)  
-	# 	if form.is_valid():
-	# 		user = (form.save(commit=False))
-	# 		user.is_active = False
-	# 		user.save()
-	# 		group = form.cleaned_data.get('group')
-	# 		user.groups.add(Client)
-	# 		return HttpResponse('Please confirm your email address to complete the registration')
-	# 	else:
-	# 		return render(request,'registration/signup.html',{"form":form})
+	if request.method =='POST':
+		form = RegistrationForm(request.POST)  
+		if form.is_valid():
+			user = (form.save(commit=False))
+			user.is_active = False
+			user.save()
+			group = form.cleaned_data.get('group')
+			user.groups.add(Client)
+			return HttpResponse('Please confirm your email address to complete the registration')
+		else:
+			return render(request,'registration/signup.html',{"form":form})
 
-	# else:
-	# 	form =RegistrationForm()
-	# 	args = {'form':form}
-	# 	args.update(csrf(request))
-	# 	args['form'] = RegistrationForm()
+	else:
+		form =RegistrationForm()
+		args = {'form':form}
+		args.update(csrf(request))
+		args['form'] = RegistrationForm()
 	return render(request,'registration/signup.html')
 
 @csrf_protect

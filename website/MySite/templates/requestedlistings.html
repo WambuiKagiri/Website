@@ -50,7 +50,7 @@
                         <th>Type</th>
                         <th>Location</th>
                         <th>Price</th>
-                        <th>Edit</th>
+                        <th>Details</th>
                     </tr>
                     {% for listings_waiting_list in listt %}
                     
@@ -60,9 +60,9 @@
                         <td>{{ listings_waiting_list.location }}</td>
                         <td>{{ listings_waiting_list.price }}</td>   
                         <td>
-                            <button type="button" class="btn btn-indigo btn-sm m-0 add-property" style="background-color:#5288ff !important" data-toggle="modal" data-target="#add_property">Verify</button>
-                          </td>
-                          <!-- <li class="hidden-xs"><a href="#" class="add-project" data-toggle="modal" data-target="#add_project">something</a></li> -->
+                            <button type="button" class="btn btn-indigo btn-sm m-0 add-property" style="background-color:#5288ff !important;" data-toggle="modal" data-target="#add_property">Details</button>
+                        </td>
+          
                     </tr>
                     {% endfor %}
             </table>

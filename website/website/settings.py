@@ -86,7 +86,7 @@ CHANNEL_LAYERS = {
         'CONFIG': {
             "hosts": [('127.0.0.1', 6379)],
         },
-        'ROUTING': 'website.routing.channel_routing',
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
     },
 }
 # Database
