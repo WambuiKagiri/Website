@@ -62,24 +62,3 @@ class property_admin(admin.ModelAdmin):
 	property_title = models.CharField(max_length=2000)
 	locatiom = models.CharField(max_length=1000)
 
-
-
-class client(models.Model):
-	user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
-	fname = models.CharField(max_length=15)
-	lname = models.CharField(max_length=15)
-	email = models.CharField(max_length=100)
-	phone1 = models.IntegerField()
-	phone2 = models.IntegerField()
-	profilepic = models.FileField(upload_to='',blank=True)
-
-
-
-
-class message(models.Model):
-	author = models.ForeignKey(User, on_delete=models.CASCADE)
-	content = models.TextField()
-	timestamp = models.DateTimeField(auto_now_add=True)
-
-	def __str__(self):
-		return self.author.username 

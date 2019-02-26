@@ -33,7 +33,7 @@ class loginform(forms.Form):
         if not user.check_password(password):
             raise forms.ValidationError("Incorrect password!")
 
-        if user.groups.filter(name='Agents').exists() == False and user.groups.filter(name='Clients').exists():
+        if user.groups.filter(name='Agents').exists() == False and user.groups.filter(name='Client').exists():
             raise forms.ValidationError("Sorry, you are not permitted to access this page")
 
         return super(loginform,self).clean(*args,**kwargs)
@@ -45,11 +45,11 @@ class RegistrationForm(UserCreationForm):
 	username = forms.CharField(label="Username",max_length=30,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter your username','name':'username'}))
 	email = forms.CharField(max_length=75,help_text="Note: Your account activation and password reset links will be sent to this email.", required=True,widget=forms.TextInput(attrs={'class':'form-control','id':'exampleInputEmail1','placeholder':'Enter your email','name':'email'}))
 	password1 = forms.CharField(label='Password',widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Type in your password','name':'password1'}))
-	password2 = forms.CharField(label='Password Confirmation',widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Repeat the password above','name':'password2'}))
-
+	password2 = forms.CharField(label='Password Confirmation',widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Repeat the password above','name':'password2'}))	
+	
 	class Meta:
 		model = User
-		fields = ('group','first_name','last_name','username','email',)
+		fields =('group','first_name','last_name','username','email','password1','password2')
 
 	def clean_email(self):
 		if User.objects.filter(email__iexact=self.cleaned_data['email']):
@@ -64,7 +64,7 @@ class RegistrationForm(UserCreationForm):
 		return password2
 
 	def save(self, commit=True):
-		user = super(UserCreationForm,self).save(commit=False)
+		user = super(RegistrationForm,self).save(commit=False)
 		user.set_password(self.cleaned_data["password1"])
 		if commit:
 			user.save()

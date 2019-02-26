@@ -12,6 +12,7 @@ from MySite.consumers import ChatConsumer
 from MySite.views import dashboard,home,subscribe,search,listproperty,message
 from MySite.views import agentprofile
 from django.views.generic import TemplateView
+from accounts.views import register
 app_name = 'MySite'
 
 admin.site.site_header = 'Desma Administration'
@@ -31,11 +32,12 @@ urlpatterns = [
 	url(r'^properties/$', views.PropertiesPageView.as_view(),name='properties'),
 	url(r'^requestedlistings/$', views.ListingsPageView.as_view()),
 	url(r'^bookedviewings/$', views.BookingsPageView.as_view()),
+	# url(r'^(?P<room_name>[^/]+)/$', views.message, name='room'),
 	url(r'^message/$', message,name='chat'),
 	url(r'^property/(?P<property_title>[-\w]+)/(?P<pk>\d+)/$', views.PropertyPageView.as_view( )),
 	url(r'^agent/profile/$', agentprofile),
 	# url(r'^/message/', TemplateView.as_view(template_name='message.html'))
-
+	url(r'^register/',register,name='register'),
 		
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 

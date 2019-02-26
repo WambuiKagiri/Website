@@ -22,7 +22,7 @@ from django.urls import path, re_path
 from django.conf.urls import url,include
 from django.contrib.auth import views
 from django.contrib.auth import views as auth_views
-from accounts.views import (login,listproperty,register)
+from accounts.views import (login,listproperty,register,reset_view,refer_view)
 from MySite.views import dashboard,home,subscribe,search,agentprofile
 from MySite.consumers import ChatConsumer
 from django.views.generic import TemplateView
@@ -33,12 +33,16 @@ urlpatterns = [
     url(r'^', include('django.contrib.auth.urls')), 
     url(r'^accounts/login/',login,name='login'),
     url(r'^agent/',dashboard ,name='dashboard'),
-    # url(r'^',home ,name='index'),
-    # url(r'^',subscribe,name='subscribe'),
     url(r'^ListProperty/$', listproperty ,name='list_property'),
     url(r'^agent/profile/$', agentprofile),
-    url(r'^accounts/register/',register,name='register'),
-    
+    url(r'^register/',register,name='register'),
+    url(r'^reset/',reset_view,name='reset'),
+    url(r'^refer/',refer_view,name='refer'),
+    url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',include('accounts.urls')),
+    url(r'^password_reset/$', auth_views.PasswordResetView, name='password_reset'),
+    url(r'^password_reset/done/$', auth_views.PasswordResetDoneView, name='password_reset_done'),
+    url(r'^reset/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',auth_views.PasswordResetConfirmView, name='password_reset_confirm'),
+    url(r'^reset/done/$', auth_views.PasswordResetCompleteView, name='password_reset_complete'),    
 
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)
 urlpatterns += staticfiles_urlpatterns()

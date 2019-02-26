@@ -215,7 +215,7 @@ class PropertiesPageView(TemplateView):
 @login_required(login_url='/accounts/login/')
 @user_passes_test(lambda u: u.groups.filter(name='Agents').exists())
 def dashboard(request):
-	lisstt = listings_waiting_list.objects.all()
+	listt = listings_waiting_list.objects.all()
 	bookin = booked_viewings.objects.all()
 	paginator = Paginator(listt,8)
 	
@@ -228,7 +228,7 @@ def dashboard(request):
 	except EmptyPage:
 		listt = paginator.page(paginator.num_pages)
 	
-	return render(request, 'agent.html',{'lisstt':lisstt,'bookin':bookin})
+	return render(request, 'agent.html',{'listt':listt,'bookin':bookin})
 	# else:
 	# 	return redirect('/accounts/login/')
 
