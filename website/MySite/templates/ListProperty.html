@@ -6,115 +6,193 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Desma Properties</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'MySite/images/icon.png'%}">
     <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/main.css'%}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="{%static 'MySite/plugins/font-awesome-4.7.0/css/font-awesome.min.css'%}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
     <!-- <script src="{%static 'MySite/styles/main.js'%}"></script> -->
 </head>
 <body>
+   
     <div class="supercontainer" >
+        
+        {% if user.is_authenticated %}
+        
+        <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+            <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                <span class="caret"></span></button>
+                <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">SIGN OUT
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="/client/profile/">Profile</a></li>
+                    <li><a href="#">Notifications</a></li>
+                    <li><a href="/myproperties/">My Properties</a></li>
+                </ul>
+            </div>
+        </div>
+        {% else %}
+            <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                    <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                </ul>
+            </div>
+        {% endif %}
+        <!-- <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <li class="upper-links">
+                        <li class="menu-has-children" style="color: #ffffff;"><a href="">ACCOUNT</a>
+                            <ul style="display: none;">
+                                <li><a>SIGN OUT</a></li>
+                            </ul>
+                        </li>
+                </ul>
+            </div> -->
+
         <!-- header -->
         <header>
             {% include "includes/header.html" %} 
         </header>
-
-            <div class="jumbotron" style="background-image:url({%static 'MySite/images/back.jpg'%})">
-            <div class="container text-center">
-                <h3><b>Search for properties near you</b></h3>      
-                <div class="search">
-                    <form action="#">
-                        <div class="row">
-                            <div class="col-lg-12">
-                                <div class="row">
-                                        <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                                <select class="form-control search-slt" id="exampleFormControlSelect1">
-                                                    <option>Location</option>
-                                                    <option>Thika</option>
-                                                    <option>Ruiru</option>
-                                                    <option>Juja</option>
-                                                </select>
-                                            </div>
-                                    <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                            <select class="form-control search-slt" id="exampleFormControlSelect1">
-                                                <option>To Rent or Buy</option>
-                                                <option>Rent</option>
-                                                <option>Buy</option>
-                                            </select>
-                                        </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                                <select class="form-control search-slt" id="exampleFormControlSelect1">
-                                                    <option>Residential or Commercial</option>
-                                                    <option>Residential</option>
-                                                    <option>Commercial</option>
-                                                </select>
-                                            </div>
-                                            <div class="col-lg-3 col-md-3 col-sm-12 p-0">
-                                                <button type="button" class="btn btn-primary wrn-btn">Search</button>
-                                            </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-
-        <!-- <div class="jumbotron">
-            <h6>Most people are extremely careful about their choice of doctor, lawyer or stockbroker, yet surprisingly casual about the next most important professional in the lives - their real estate agent.</h6>
-            <h6>Our skilled professionals are able to offer superior cutting edge service, maintain constant communication, secure the best deals and live by our values of delivering absolute honesty and integrity when securing the best possible price for your home.</h6> 
-        </div> -->
         <div class="container">
-            
-            <div class="col-md-8">
-                <div class="well well-lg">
+            <style>
+                hr {border-top: 1px solid #000; width:50%;}
+            </style>
+            <div class="col">
+                    <h2 class="text-center">List Your Property</h2>
+                    <hr>
                     <p>At Desma Properties, we are determined to exceed our clients' expectations - on every level, always. And, through our nearly 50 years' of knowledge and experience, superior systems, technology and of course, our total commitment, we're equipped to do so. 
 
                     We make it our business to continually evolve and identify new opportunities, which is why we offer a distinctive range of property services that spans residential and commercial sales and marketing , property management, corporate relocations, rentals and home loans.</p>
-
-                    <br><br>
-                    <p><b>Please provide your details below, our agents will get back to you</b></p>
-                    <form action="." class="contact_form" id="list_form" method="post">
+                    <br>
+                    <br>
+                    <p>You can request our agent to list your property for you <a href="#myModal" role="button" data-toggle="modal">here</a></td></p>
+                    <style>
+                       
+    .required:after { content:" *"; }
+</style>
+                    
+                    <form action="/ListProperty/" class="" id="list_form" method="POST">
+                        <p><b>Step 1: Property Category</b></p>
                         {% csrf_token %}
-                        <p><b>Contact details</b></p>
                         <div class="row">
                             <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Name" name="name">
-                            </div>
-                            <div class="col-md-6">
-                                <input type="tel" class="form-control" placeholder="Mobile number" name="mobile_no">
-                            </div>
-                        </div>
-                        <br><br>
-                        <p><b>Property details</b></p>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <input type="text" class="form-control" placeholder="Location"n name="location">
-                            </div>
-                            <div class="col-md-6">
-                                <input type="number" class="form-control" placeholder="Property price" name="price">
-                            </div>
-                        </div>
-                        <br><br>
-                        <div class="row">
-                            <div class="col-md-6">
-                                <select class="custom-select form-control" name="purpose">
-                                    <option selected>Purpose</option>
-                                    <option value="1">Residential</option>
-                                    <option value="2">Commercial</option>
+                                    <label class="required">Listing type:</label>
+                                <select class="custom-select form-control" name="rentbuy" >
+                                    <option disabled>For Rent or Sale</option>
+                                    <option>Rent</option>
+                                    <option>Sale</option>
                                 </select>
                             </div>
                             <div class="col-md-6">
-                                <select class="custom-select form-control" name="tyype">
-                                    <option selected>For rent or buy</option>
-                                    <option value="1">Rent</option>
-                                    <option value="2">Buy</option>
+                                    <label class="required">Category:</label>
+                                <select class="custom-select form-control" name="propertytype">
+                                    <option disabled>Category</option>
+                                    <option>Residential</option>
+                                    <option>Office</option>
+                                    <option>Flats & Apartments</option>
+                                    <option>House</option>
                                 </select>
                             </div>
                         </div>
                         <br><br>
-                        <button class="btn btn-info btn-lg" type="submit" style="background-color: #b0c6ff !important;">Send</button>
+                        <p><b>Step 2: Property details</b></p>
+                        <div class="row">
+                            <div class="col-md-4">
+                                    <label class="required">Property Title:</label>
+                                <input type="text" class="form-control" placeholder="Property Title" name="propertytitle">
+                            </div>
+                            <div class="col-md-4">
+                                    <label class="required">Price:</label>
+                                <input type="number" class="form-control" placeholder="Asking price" name="price">
+                            </div>
+                            <div class="col-md-4">
+                                    <label class="required">Area units(square meters):</label>
+                                <input type="number" class="form-control" placeholder="area" name="area">
+                            </div>
+                        </div>
+                        <br><br>
+                        <div class="row">
+                            <div class="col-md-6">
+                                    <label class="required">Description:</label>
+                              
+                                <textarea style="width: 500px;height: 150px;" name="description">
+                                    
+                                </textarea>
+                            </div>
+                            <div class="col-md-4">
+                                    <label class="required">Location:</label>
+                                   <input type="text" class="form-control" placeholder="location" name="location">
+                            </div>
+                            <div class="col-md-2">
+                                    <label class="required">Features:</label>
+                                    <select class="custom-select form-control" name="extras">
+                                            <option disabled>Features</option>
+                                            <option>Furnished</option>
+                                            <option>Serviced</option>
+                                        </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3">
+                                <label class="required">Bedrooms:</label>
+                                <input type="number" class="form-control" placeholder="Bedrooms" name="bedrooms">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="required">Bathrooms:</label>
+                                <input type="number" class="form-control" placeholder="Bathrooms" name="bathrooms">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="required">Garage:</label>
+                                <input type="number" class="form-control" placeholder="Garage" name="garage">
+                            </div>
+                            <div class="col-md-3">
+                                <label class="required">Patio:</label>
+                                <input type="number" class="form-control" placeholder="Patio" name="patio">
+                            </div>
+                            
+                        </div>
+                        <br><br>
+                        <p><b>Step 3: Attach Media</b></p>
+
+                        <style>
+                            .custom-file-upload input[type="file"] {
+                            display: none;
+                            }
+                            .custom-file-upload .custom-file-upload1 {
+                            border: 1px solid #ccc;
+                            display: inline-block;
+                            padding: 6px 12px;
+                            cursor: pointer;
+                            }                           
+                        </style>
+                        <div class="row">
+                            <div class="col-md-4">
+                                    <label for="file-upload" class="custom-file-upload1">
+                                            <i class="fa fa-cloud-upload"></i> Main Image
+                                        </label>
+                                        <input id="file-upload" type="file"/>
+                            </div>
+                            <div class="col-md-4">
+                                    <label for="file-upload" class="custom-file-upload1">
+                                            <i class="fa fa-cloud-upload"></i> others
+                                        </label>
+                                        <input id="file-upload" type="file"/>
+                            </div>
+                            <div class="col-md-4">
+                                    <label for="file-upload" class="custom-file-upload1">
+                                            <i class="fa fa-cloud-upload"></i> others
+                                        </label>
+                                        <input id="file-upload" type="file"/>
+                            </div>
+
+                        </div>
+
+                        <br><br>
+                        <button class="btn btn-info btn-lg" type="submit" style="background-color: #b0c6ff !important;">Publish</button>
                         {% if messages %}
                             <ul class="messages">
                                 {% for message in messages %}
@@ -123,27 +201,28 @@
                             </ul>
                         {% endif %}
                     </form>
-                </div>
+                
             </div>
-            <div class="col-md-4">
-                <div>
-                    <div class="well" style="height: 280px;" >
-                        <p><b>Subscribe and get alerts from us!</b></p>
-                            <form action="#">
-                                    <div class="input-group">
-                                        <input style="    border-color: #a0a0a0;
-                                        margin-top: 18%;" class="btn btn-lg" name="email" id="email" type="email" placeholder="Your Email" required>
-                                        <br><br>
-                                        <button class="btn btn-info btn-lg" type="submit" style="background-color: #b0c6ff !important;    margin-top: 20%;
-                                        margin-left: 32%;">Subscribe</button>
-                                    </div>
-                            </form>  
-                    </div> 
-                </div>
-        </div>
-        
 
+                </div>
+                <div class="modal " id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                            <h3 id="myModalLabel">Delete Confirmation</h3>
+                        </div>
+                        <div class="modal-body">
+                                <input type="text" placeholder="Your Name" name="name">
+                                <input type="tel" placeholder="Tel no" name="mobile no">
+                                <input type="email" placeholder="Email" name="email">
+                        </div>
+                        <div class="modal-footer">
+                                <button type="button" class="cancel" data-dismiss="modal">Close</button>
+                                <button type="button" class="add-project" data-dismiss="modal">Save</button>
+                        </div>
+                </div>
+</div>
     </div>
+   
 <footer class="container-fluid text-center" style="background-color: #79e8c0 !important;">
     <p class="h6">&copy All rights Reserved.<br><br> Created and developed by: Wambui Kagiri</p>
 </footer>

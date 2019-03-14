@@ -17,8 +17,12 @@ from django.shortcuts import render_to_response
 from django.template import RequestContext
 from django.contrib.auth.decorators import user_passes_test
 from ajax_search.forms import SearchForm
-
+from notify.signals import notify
+from simple_search import search_filter
 import json
+import re
+from django.views.generic.edit import FormView
+from django.db.models import Q
 from django.contrib.auth import (
 authenticate,
 get_user_model,
@@ -32,6 +36,7 @@ from .forms import subscribe_form
 from .forms import list_form
 from .forms import customer_form
 from .forms import booking_form
+from .forms import searchform
 
 #imported models
 from .models import subscriber
@@ -42,81 +47,33 @@ from .models import propety
 
 
 
-import re
-
-from django.db.models import Q
-
-def normalize_query(query_string,
-                    findterms=re.compile(r'"([^"]+)"|(\S+)').findall,
-                    normspace=re.compile(r'\s{2,}').sub):
-    ''' Splits the query string in invidual keywords, getting rid of unecessary spaces
-        and grouping quoted words together.
-        Example:
-
-        >>> normalize_query('  some random  words "with   quotes  " and   spaces')
-        ['some', 'random', 'words', 'with quotes', 'and', 'spaces']
-
-    '''
-    return [normspace(' ', (t[0] or t[1]).strip()) for t in findterms(query_string)]
-
-def get_query(query_string, search_fields):
-    ''' Returns a query, that is a combination of Q objects. That combination
-        aims to search keywords within a model by testing the given search fields.
-
-    '''
-    query = None # Query to search for every search term        
-    terms = normalize_query(query_string)
-    for term in terms:
-        or_query = None # Query to search for a given term in each field
-        for field_name in search_fields:
-            q = Q(**{"%s__icontains" % field_name: term})
-            if or_query is None:
-                or_query = q
-            else:
-                or_query = or_query | q
-        if query is None:
-            query = or_query
-        else:
-            query = query & or_query
-    return query
-
 @csrf_protect
 @ensure_csrf_cookie
 def home( request, **kwargs):
-	propertys = propety.objects.all().filter(rent_buy='Rent')[:4]
-	props = propety.objects.all().filter(rent_buy='Buy')[:4]
+	propertys = propety.objects.all().filter(rentbuy='Rent')[:4]
+	props = propety.objects.all().filter(rentbuy='Buy')[:4]
 	propetys = propety.objects.all()
 	return render(request, 'index.html', {'propertys':propertys,'props':props, 'propetys':propetys})
 
 
 @csrf_protect
 @ensure_csrf_cookie
-@login_required(login_url='/accounts/login/')
-def subscribe(self, request, **kwargs):
+def subscribe(request, **kwargs):
 	if request.method == 'POST':
+		form = None
 		form = subscribe_form(request.POST)
 		if form.is_valid():
 			form.save()
-			messages.success(request, "Your message has been sent")
-			return HttpResponseRedirect('/')
+			messages.success(request, "Thank you for subscribing, We won't spam!")
+			return render(request, 'index.html', {'form':form})
 
 		else:
-			return HttpResponseRedirect('/')
+			return render(request, 'index.html', {'form':form})
 				
 
 	else:
-		return render(request, 'properties.html', {'form':form})
+		return render(request, 'index.html', {'form':form})
 
-def search(request):
-   query_string = ''
-   found_entries = ''
-   if ('q' in request.GET) and request.GET['q'].strip():
-	   query_string = request.GET['q']
-	   entry_query = get_query(query_string, ['purpose', 'rent_buy', 'location'])
-	   found_entries = propety.objects.filter(entry_query)
-	   
-	   return render_to_response('searchresults.html',{ 'query_string': query_string, 'found_entries': found_entries },context_instance=RequestContext(request))
-	
 
 class AboutPageView(TemplateView):
 	def get(self, request, **kwargs): 
@@ -136,63 +93,64 @@ class ContactPageView(TemplateView):
 		else:
 			return render(request, 'success.html', {'form':form})	
 
-# class ListPropertyPageView(TemplateView):
-# 	def get(self, request, **kwargs): 
-# 		return render(request, 'ListProperty.html', context=None)
-@csrf_protect
-@ensure_csrf_cookie
-@login_required(login_url='/accounts/login/')
-@user_passes_test(lambda u: u.groups.filter(name='Client').exists())
-def listproperty(self,request, **kwargs):
+def search(request):
 	if request.method == 'POST':
-		form = list_form(request.POST)
+		tyype = request.POST['propertytype']
+		re = request.POST['rentbuy']
+		loc = request.POST['location']
+		beds = request.POST['bedrooms']
+		baths = request.POST['bathrooms']
+		
+		print(loc)
+		stuff = propety.objects.filter(Q(propertytype__icontains=tyype) & Q(rentbuy__icontains=re)  & Q(location__icontains=loc) & Q(bedrooms__icontains=beds) & Q(bathrooms__icontains=baths)) 
+		return render(request, 'ajax_search.html',{'stuff':stuff})	
+	else:
+		return render(request, 'index.html')
+
+
+
+@csrf_protect
+@ensure_csrf_cookie		
+def propertypage(request, propertytitle,pk, **kwargs): 
+	propertys = propety.objects.all().filter(propertytitle= propertytitle)
+	if request.method == 'POST':
+		form = customer_form(request.POST)
 		if form.is_valid():
-			form.save()
-			return render(request, 'MySite/ListProperty.html', {'form':form})
-				
+			message = form.save()
+			message.save()
+			messages.success(request, "Your message has been sent")
+			return render(request, 'property.html', {'form':form,'propertys':propertys})
 
 		else:
-			return render(request, 'ListProperty.html', {'form':form})
+			propertys = propety.objects.all().filter(propertytitle= propertytitle)
+			return render(request, 'property.html',{'propertys':propertys})
 
 	else:
-		return render(request, 'ListProperty.html', {'form':form})
-
+		propertys = propety.objects.all().filter(propertytitle= propertytitle)
+		return render(request, 'property.html',{'propertys':propertys})
 	
-	
 
-
-class PropertyPageView(TemplateView):
-	def get(self, request, property_title,pk, **kwargs): 
-		propertys = propety.objects.all().filter(property_title= property_title)
-		return render(request, 'property.html', {'propertys':propertys})
-
-	
-	@csrf_protect
-	@ensure_csrf_cookie
-	@login_required(login_url='/accounts/login/')		
-	def post(self, request,**kwargs):
-		if request.method == 'POST':
-			form = customer_form(request.POST)
-			if form.is_valid():
-				form.save()
-				messages.success(request, "Your message has been sent")
-				return render(request,'property.html')
-
-			else:
-				return render(request, 'login.html')
-
-		else:
-			redirect('/property/')
-
-	def post(self, request, **kwargs):
-		if request.method == 'POST':
-			form = booking_form(request.POST)
-			if form.is_valid():
-				form.save()
-				return HttpResponseRedirect('/')
+@csrf_protect
+@ensure_csrf_cookie	
+def booking(request,propertytitle, **kwargs):
+	propertys = propety.objects.all().filter(propertytitle= propertytitle)
+	f = booking_form(request.POST)
+	if request.method == 'POST':
+		
+		if f.is_valid():
+			booking = f.save()
+			booking.save()
+			messages.success(request, "Your message has been sent")
+			return render(request, 'property.html', {'f':f,'propertys':propertys})
 			
-			else:
-				render(request,'property.html', {'form':form})
+		else:
+			propertys = propety.objects.all().filter(propertytitle= propertytitle)
+			return render(request, 'property.html', {'f':f,'propertys':propertys})
+
+	else:
+		propertys = propety.objects.all().filter(propertytitle= propertytitle)
+		return render(request, 'property.html', {'f':f,'propertys':propertys})
+
 
 class PropertiesPageView(TemplateView):
 	def get(self, request, **kwargs):
@@ -228,7 +186,7 @@ def dashboard(request):
 	except EmptyPage:
 		listt = paginator.page(paginator.num_pages)
 	
-	return render(request, 'agent.html',{'listt':listt,'bookin':bookin})
+	return render(request, 'agent.html')
 	# else:
 	# 	return redirect('/accounts/login/')
 
@@ -262,7 +220,8 @@ def message(request, room_name):
    })
 
 
-
+def clientprofile(request):
+    return render(request,'clientprofile.html')
 
 
 def agentprofile(request):
@@ -279,3 +238,81 @@ def agentsearch(request):
 	listings =  listings_waiting_list.objects.all().filter(Title__icontains=search_text)[:5]
 
 	return render(request,'agentsearch.html',{'bookings':bookings,'listings':listings})
+
+
+
+# from twilio.rest import Client
+
+
+# account_sid = 'AC108e760543e56be66fcd57b4e835ca37'
+# auth_token = '1c80885600c3733c5491215c3202f357'
+# client = Client(account_sid, auth_token)
+
+# message = client.messages \
+#                 .create(
+#                      body=" Hello, We have received your request and we will get back to you shortly. ",
+#                      from_='+12015716689',
+#                      to='+254770268633'
+#                  )
+
+# print(message.sid)
+
+def listpropetrty(request):
+	return render(request, 'listToproperty.html')
+
+# def follow_user(request, user):
+#     user = User.objects.get(username=user)
+#     ...
+#     dofollow
+#     ...
+
+#     notify.send(request.user, recipient=user, actor=request.user
+#                 verb='followed you.', nf_type='followed_by_one_user')
+
+#     return YourResponse
+
+def propertycontact(request):
+	requests = contact_on_property.objects.all()
+	
+	paginator = Paginator(requests,8)
+	
+	page = request.GET.get('page')
+	try:
+		requests = paginator.page(page)
+	except PageNotAnInteger:
+		requests = paginator.page(1)
+	except EmptyPage:
+		requests = paginator.page(paginator.num_pages)
+	return render(request,'propertymessages.html',{'requests':requests})
+
+@csrf_protect
+@ensure_csrf_cookie
+@login_required(login_url='/accounts/login/')
+@user_passes_test(lambda u: u.groups.filter(name='Client').exists())
+def listpropertyy(request,**kwargs):
+	form = list_form(request.POST)
+	if request.method == 'POST':	
+		if form.is_valid():
+			propety = form.save()
+			propety.save()
+
+			# propety.objects.create(propertytitle=title,location=loc,price=pri,rentbuy=ren,propertytype=tyype,extras=exts,description=desc,area=ar)
+			
+			return HttpResponseRedirect('/process-payment/')
+				
+
+		else:		
+			return render(request, 'ListProperty.html',{'form':form})
+
+	else:
+		form = list_form()
+		args = {'form':form}
+		args.update(csrf(request))
+		args['form'] = list_form()
+		return render(request,  'ListProperty.html',args)
+
+def clientproperties(request):
+	return render(request,'myproperties.html')
+
+def paypage(request):
+	return render(request,'payment.html')

@@ -12,48 +12,6 @@
     <link rel="stylesheet" type="text/css" href="{% static 'MySite/styles/slideshow.css'%}">
     <script type="text/javascript" src="{%static 'MySite/js/modernizr.custom.86080.js'%}"></script>
 </head>
-    <script type="text/javascript">
-            $(document).ready( function() {
-                $('.subMenu').smint({
-                    'scrollSpeed' : 1000
-                });
-            });
-
-            var lastKnownScrollY = 0;
-var currentScrollY = 0;
-var ticking = false;
-var idOfHeader = 'header';
-var eleHeader = null;
-const classes = {
-  pinned: 'header-pin',
-  unpinned: 'header-unpin',
-};
-function onScroll() {
-  currentScrollY = window.pageYOffset;
-  if (currentScrollY < lastKnownScrollY) {
-    pin();
-  } else if (currentScrollY > lastKnownScrollY) {
-    unpin();
-  }
-  lastKnownScrollY = currentScrollY;
-}
-function pin() {
-  if (eleHeader.classList.contains(classes.unpinned)) {
-    eleHeader.classList.remove(classes.unpinned);
-    eleHeader.classList.add(classes.pinned);
-  }
-}
-function unpin() {
-  if (eleHeader.classList.contains(classes.pinned) || !eleHeader.classList.contains(classes.unpinned)) {
-    eleHeader.classList.remove(classes.pinned);
-    eleHeader.classList.add(classes.unpinned);
-  }
-}
-window.onload = function() {
-  eleHeader = document.getElementById(idOfHeader);
-  document.addEventListener('scroll', onScroll, false);
-}
-    </script>
     <style>
         .header{
   position: fixed;
@@ -79,25 +37,27 @@ window.onload = function() {
   transform: translateY(0);
 }
     </style>
-
-    <header id="header" class="header">
-            <div class="subMenu" >
-                    <div class="inner">
-                        <a href="#s1" class="subNavBtn">Login</a>
-                        <a href="#s2" class="subNavBtn">Sign Up</a> 
-                    </div>
-                </div>
-    </header>
-                    <ul class="cb-slideshow">
-
-                    </ul>
-  
-                
-                <div class="section s1">
+        <style>
+                body {
+                background: url('https://cdn.pixabay.com/photo/2017/02/24/12/22/kitchen-2094707_960_720.jpg') fixed;
+                background-size: cover;
+                }
+            
+                *[role="form"] {
+                max-width: 530px;
+                padding: 15px;
+                margin: 0 auto;
+                border-radius: 0.3em;
+                background-color: #f2f2f2;
+                }
+                </style>
+                <div class="">
                     <div class="inner ">
                         <div class="container">
                             <div class="d-flex justify-content-center h-100">
-                                <div class="card">
+                                <div class="card" style="    height: 60%;
+                                width: 40%;
+                                margin-top: 1%;">
                                     <div class="card-header">
                                         <h3>Sign In</h3>
                                         <div class="d-flex justify-content-end social_icon">
@@ -105,24 +65,9 @@ window.onload = function() {
                                     </div>
                                     <div class="card-body">
                                         <form id="loginform" method="post" 
-                                        action="{% url 'login' %}"  class="login">
+                                        action="{% url 'login' %}"  class="login" role="form">
                                         {% csrf_token %}
-                                            <div class="input-group form-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-user"></i></span>
-                                                </div>
-                                                <input type="text" class="form-control" placeholder="username" name="username" id="id_username">
-                                                
-                                            </div>
-                                            <div class="input-group form-group">
-                                                <div class="input-group-prepend">
-                                                    <span class="input-group-text"><i class="fas fa-key"></i></span>
-                                                </div>
-                                                <input type="password" class="form-control" placeholder="password" name="password" id="id_password">
-                                            </div>
-                                            <div class="row align-items-center remember">
-                                                <input type="checkbox">Remember Me
-                                            </div>
+                                        {{form.as_p}}
                                             {% if form.errors %}
                                             <p class=" label label-danger">
                                                 Your username and password didn't match. 
@@ -130,12 +75,14 @@ window.onload = function() {
                                             </p>
                                         {% endif %}
                                             <div class="form-group">
-                                                <input type="submit" value="Login" class="btn float-right login_btn">
+                                                <input type="hidden" name="next" value="{{ request.GET.next }}">
+                                                <input type="submit" value="Login" class="btn float-right login_btn" style="    color: white !important;
+                                                background-color: #108e48 !important;" >
                                             </div>
                                         </form>
                                     </div>
                                     <div class="card-footer">
-                                        <div class="d-flex justify-content-center links">
+                                        <div class="d-flex justify-content-center links" style="color: #1f1f1f !important;">
                                             Don't have an account?<a href="/register/"  class="inner subNavBtn">Sign Up</a>
                                         </div>
                                         <div class="d-flex justify-content-center">

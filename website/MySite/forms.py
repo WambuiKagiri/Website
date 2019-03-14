@@ -16,10 +16,11 @@ class subscribe_form(forms.ModelForm):
 
 class list_form(forms.ModelForm):
 	class Meta:
-		model = listings_waiting_list
-		fields = ['property_id','name','mobile_no','location','price','purpose','tyype']
+		model = propety
+		fields = '__all__'
 
 from .models import contact_on_property
+
 class customer_form(forms.ModelForm):
 	class Meta:
 		model = contact_on_property
@@ -60,3 +61,7 @@ class ListToProperty_Form(forms.ModelForm):
 # 		user.save()
 # 		client = client.objects.create(user=user)
 # 		return user
+class searchform(forms.ModelForm):
+	class Meta:
+		model = propety
+		fields = '__all__'

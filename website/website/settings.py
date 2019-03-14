@@ -35,6 +35,7 @@ ALLOWED_HOSTS = ["*" ]
 # Application definition
 
 INSTALLED_APPS = [
+    'django_filters',
     'channels',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -44,9 +45,16 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'accounts',
     'MySite',
-    'ajax_search',
+    'notify',
+    'django_twilio',
+    'paypal.standard.ipn', 
+    'payment',
     
 ]
+
+MESSAGE_STORAGE = 'django.contrib.messages.storage.session.SessionStorage'
+
+APPEND_SLASH=False
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -79,7 +87,13 @@ ASGI_APPLICATION = 'website.routing.application'
 
 WSGI_APPLICATION = 'website.wsgi.application'
 
-
+TEMPLATE_CONTEXT_PROCESSORS = (
+    "django.core.context_processors.auth",
+    "django.core.context_processors.debug",
+    "django.core.context_processors.i18n",
+    "django.core.context_processors.media",
+    "django.core.context_processors.request",
+)
 
 CHANNEL_LAYERS = {
     'default': {
@@ -151,8 +165,8 @@ USE_TZ = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True
 EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_HOST_USER = 'wambuikagiri.c@gmail.com'
-EMAIL_HOST_PASSWORD = 'qwerty4321!'
+EMAIL_HOST_USER = 'desmapropertiesteam@gmail.com'
+EMAIL_HOST_PASSWORD = 'wambui98'
 EMAIL_PORT = 587
 ACCOUNT_ACTIVATION_DAYS = 2
 
@@ -178,3 +192,10 @@ SEARCH_RESULT_TEMPLATE = 'search_results.html'
 
 
 LOGOUT_REDIRECT_URL ='/'
+
+TWILIO_ACCOUNT_SID = 'AC108e760543e56be66fcd57b4e835ca37'
+TWILIO_AUTH_TOKEN = '1c80885600c3733c5491215c3202f357'
+
+PAYPAL_RECEIVER_EMAIL = 'desmapropertiesteam-facilitator@gmail.com'
+ 
+PAYPAL_TEST = True

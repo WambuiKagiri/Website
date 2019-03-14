@@ -6,9 +6,11 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Desma Properties</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'MySite/images/icon.png'%}">
     <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/waitinglistings.css'%}" />
     <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/agent.css'%}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    
     <link rel="stylesheet" type="text/css" href="{%static 'MySite/plugins/font-awesome-4.7.0/css/font-awesome.min.css'%}">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
@@ -21,17 +23,17 @@
 
         <!--  -->
         <div>
-            
-            
+                
         <style>
         table {
           font-family: arial, sans-serif;
           border-collapse: collapse;
-          width: 80% !important;
+          width: 70% !important;
           margin-left: 18% !important;
           margin-top: -28% !important;
+          position: absolute;
         }
-        
+                
         td, th {
           border: 1px solid #dddddd;
           text-align: left;
@@ -42,59 +44,53 @@
           background-color: #dddddd;
         }
         </style>
-            <table class="table-hover table-responsive">
-                <caption>Unapproved listings
-                </caption>
-                    <tr>
-                        <th>Owner</th>
-                        <th>Type</th>
-                        <th>Location</th>
-                        <th>Price</th>
-                        <th>Details</th>
-                    </tr>
-                    {% for listings_waiting_list in listt %}
-                    
-                    <tr>
-                        <td> {{ listings_waiting_list.name }}</td>
+
+        <table class="table table-striped">
+            <caption>Unapproved Listings</caption>
+                <thead>
+                  <tr>
+                    <th>Owner</th>
+                    <th>Type</th>
+                    <th>Location</th>
+                    <th>Price</th>
+                    <th style="width: 36px;">Edit</th>
+                    <th style="width: 36px;">Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                        {% for listings_waiting_list in listt %}
+                   <tr onclick="window.location='/';">
+                        <td>{{ listings_waiting_list.name }}</td>
                         <td>{{ listings_waiting_list.purpose }}</td>
                         <td>{{ listings_waiting_list.location }}</td>
-                        <td>{{ listings_waiting_list.price }}</td>   
+                        <td>{{ listings_waiting_list.price }}</td>  
                         <td>
-                            <button type="button" class="btn btn-indigo btn-sm m-0 add-property" style="background-color:#5288ff !important;" data-toggle="modal" data-target="#add_property">Details</button>
+                            <a href="/list/"><i class="fa fa-pencil"></i></a>
                         </td>
-          
-                    </tr>
-                    {% endfor %}
-            </table>
+                        <td>
+                            <a href="#myModal" role="button" data-toggle="modal"><i class="fa fa-trash"></i></a>
+                        </td>
+                  </tr>
+                  {% endfor %}
+                </tbody>
+              </table>
+
+           
         </div>
           <!-- Modal -->
-  <div id="add_property" class="modal fade" role="dialog">
-    <div class="modal-dialog">
-
-        <!-- Modal content-->
-        <div class="modal-content">
-            <div class="modal-header login-header">
-                <button type="button" class="close" data-dismiss="modal">×</button>
-                <h4 class="modal-title">Verify Listing</h4>
-            </div>
-            <div class="modal-body">
-                        <input type="text" placeholder="Property name" name="property_title">
-
-                        <input type="text" placeholder="location" name="location">
-                        <input type="text" placeholder="Asking price" name="price">
-                        <input type="text" placeholder="Property type" name="property_type">
-                        <input type="text" placeholder="For rent or sale" name="rent_buy">
-                        <input type="text" placeholder="area" name="area">
-                        <textarea placeholder="Property Desicrption"></textarea>
+          <div class="modal small hide fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                    <h3 id="myModalLabel">Delete Confirmation</h3>
                 </div>
-            <div class="modal-footer">
-                <button type="button" class="cancel" data-dismiss="modal">Close</button>
-                <button type="button" class="add-property" data-dismiss="modal">Save</button>
+                <div class="modal-body">
+                    <p class="error-text">Are you sure you want to delete this item?</p>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn" data-dismiss="modal" aria-hidden="true">Cancel</button>
+                    <button class="btn btn-danger" data-dismiss="modal">Delete</button>
+                </div>
             </div>
-        </div>
-
-    </div>
-</div>
         
         <div class="pagination" style="margin-left: 60%;">
             <span class="step-links">
@@ -110,8 +106,7 @@
                 {% endif %}
             </span>
         </div>
-          <!-- Modal -->
-
+    
 
     
 </body>

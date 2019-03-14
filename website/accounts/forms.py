@@ -9,6 +9,7 @@ get_user_model,
 logout,
 )
 
+# from MySite.models import Profile
 User = get_user_model()
 
 class loginform(forms.Form):
@@ -33,7 +34,7 @@ class loginform(forms.Form):
         if not user.check_password(password):
             raise forms.ValidationError("Incorrect password!")
 
-        if user.groups.filter(name='Agents').exists() == False and user.groups.filter(name='Client').exists():
+        if user.groups.filter(name='Client').exists() == False and user.groups.filter(name='Client').exists():
             raise forms.ValidationError("Sorry, you are not permitted to access this page")
 
         return super(loginform,self).clean(*args,**kwargs)
@@ -43,13 +44,15 @@ class RegistrationForm(UserCreationForm):
 	first_name = forms.CharField(max_length=30, required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'First name','name':'first_name'}))
 	last_name = forms.CharField(max_length=30, required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Last name','name':'last_name'}))
 	username = forms.CharField(label="Username",max_length=30,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Enter your username','name':'username'}))
+	mobile_no = forms.IntegerField(required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Mobile No1','name':'mobile1'}))
+	location = forms.CharField(max_length=30, required=True,widget=forms.TextInput(attrs={'class':'form-control','placeholder':'Location','name':'location'}))
 	email = forms.CharField(max_length=75,help_text="Note: Your account activation and password reset links will be sent to this email.", required=True,widget=forms.TextInput(attrs={'class':'form-control','id':'exampleInputEmail1','placeholder':'Enter your email','name':'email'}))
 	password1 = forms.CharField(label='Password',widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Type in your password','name':'password1'}))
 	password2 = forms.CharField(label='Password Confirmation',widget=forms.PasswordInput(attrs={'class':'form-control','placeholder':'Repeat the password above','name':'password2'}))	
 	
 	class Meta:
 		model = User
-		fields =('group','first_name','last_name','username','email','password1','password2')
+		fields =('group','first_name','last_name','username','mobile_no','location', 'email','password1','password2')
 
 	def clean_email(self):
 		if User.objects.filter(email__iexact=self.cleaned_data['email']):
@@ -66,6 +69,8 @@ class RegistrationForm(UserCreationForm):
 	def save(self, commit=True):
 		user = super(RegistrationForm,self).save(commit=False)
 		user.set_password(self.cleaned_data["password1"])
+		user.mobile_no = self.cleaned_data["mobile_no"]
+		user.location = self.cleaned_data["location"]
 		if commit:
 			user.save()
 		return user

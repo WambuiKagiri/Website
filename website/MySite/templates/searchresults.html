@@ -13,8 +13,12 @@
 <li> None to show!</li>
 {% endif %}  -->
 
-{% if found_entries %}
-   {% for field in found_entries %}
+
+<div>
+   {% for propety in results %}
+      {{ propety.property_title}}
         {{ propety.location }}
+        {{ propety.rent_buy}}
    {% endfor %}
-{% endif %}
+</div>
+

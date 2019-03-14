@@ -15,20 +15,25 @@
 <body class="home">
   <div class="container-fluid display-table">
     {% include 'includes/agenthead.html' %}
-    <button type="submit"  id="view1" onclick="viewBookings()">View Booked Viewings</button><br>
-<button type="submit" id="view2" onclick="viewListings()">View listings</button><br> 
-  </div>
 
+  </div>
+<div class="container">
+    <!-- <button type="submit"  id="view1" onclick="viewBookings()">View listings</button><br>
+    <button type="submit" id="view2" onclick="viewListings()">View Booked Viewings</button><br>  -->
+</div>
   <script>
       function viewBookings(){
     document.getElementById('Bookings').style.display = 'none';
     document.getElementById('Listings').style.display = 'block';
+    document.getElementById('view1').style.display = 'none';
+    document.getElementById('view2').style.display = 'block';
 
 }
 function viewListings(){
     document.getElementById('Bookings').style.display = 'block';
     document.getElementById('Listings').style.display = 'none';
-
+    document.getElementById('view1').style.display = 'block';
+    document.getElementById('view2').style.display = 'none';
 }
   </script>
 

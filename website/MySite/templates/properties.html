@@ -7,6 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>Desma Properties</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'MySite/images/icon.png'%}">
     <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/main.css'%}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -36,14 +37,14 @@
 
             <div class="col-md-8">
                     {% for property in propertyss %}
-                <a href="/property/{{property.property_title}}">
+                <a href="/property/{{property.propertytitle}}/{{property.property_id}}/">
                     <div class="well col-sm-12" style="color: black;object-fit: contain;">
                         <div class="property-image">
                             <img src="{{ property.property_picture.url }}" class="col-lg-4 col-md-5 col-sm-6">
-                            <div class="property_room_title"><b>{{ property.property_title }} at {{ property.location }} </b></div>
+                            <div class="property_room_title"><b>{{ property.propertytitle }} at {{ property.location }} </b></div>
                         </div>
                         <div class="property-details col-lg-8 col-md-7 col-sm-6">
-                            <p>{{ property.description }}</p>
+                            <p>{{ property.description |truncatechars:100 }}</p>
                             <div class="row">
 
                                 <div class="property_room col-md-3">

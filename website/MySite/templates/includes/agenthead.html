@@ -14,7 +14,7 @@
         <div class="navi">
             <ul>
                 <li><a href="/agent/"><i class="fa fa-home" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Home</span></a></li>
-                <li><a href="/message/"><i class="fa fa-tasks" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Messages</span></a></li>
+                <li><a href="/property_contacts/"><i class="fa fa-envelope" aria-hidden="true"></i><span class="hidden-xs hidden-sm"> Requests</span></a></li>
                 <li><a href="/requestedlistings/"><i class="fa fa-bar-chart" aria-hidden="true"></i><span class="hidden-xs hidden-sm"> Waiting Listings</span></a></li>
                 <li><a href="/bookedviewings/"><i class="fa fa-user" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Booked viewings</span></a></li>
                 <li><a href="#"><i class="fa fa-cog" aria-hidden="true"></i><span class="hidden-xs hidden-sm">Settings</span></a></li>
@@ -47,8 +47,6 @@
                 <div class="col-md-5">
                     <div class="header-rightside">
                         <ul class="list-inline header-top pull-right">
-                            
-                            <li><a href="/message/"><i class="fa fa-envelope" aria-hidden="true"></i></a></li>
                             <li>
                                 <a href="#" class="icon-info">
                                     <i class="fa fa-bell" aria-hidden="true"></i>
@@ -63,9 +61,8 @@
                                     <b class="caret"></b></a>
                                 <ul class="dropdown-menu">
                                     <li>
-                                          
                                         <div class="navbar-content">
-                                            <span>Username</span>
+                                            <span>{{ request.user.username}}</span>
                                             <p class="text-muted small">
                                               Email
                                             </p>
@@ -80,23 +77,13 @@
                             
                             <li>
                                 <a href="{% url 'logout' %}">
-                                  <i class="fa fa-sign-out"></i></li>
+                                  <i class="fa fa-sign-out"></i>Log Out
                                 </a>
                         </ul>
                     </div>
                 </div>
             </header>
         </div>
-        <div class="user-dashboard">
-            <h1></h1>
-            <div class="row">
-                <div class="col-md-5 col-sm-5 col-xs-12 gutter">
-                  
-                </div>
-                <div class="col-md-7 col-sm-7 col-xs-12 gutter">
-
-                </div>
-            </div>
-        </div>
+ 
     </div>
 </div>

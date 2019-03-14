@@ -9,19 +9,42 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <title>{{ propety.property_title }}</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'MySite/images/icon.png'%}">
     <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/main.css'%}" />
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
 
 </head>
 <body>
     <div class="supercontainer">
-
+        {% if user.is_authenticated %}
+        <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+            <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                <span class="caret"></span></button>
+                <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">SIGN OUT
+                <span class="caret"></span></button>
+                <ul class="dropdown-menu">
+                    <li><a href="#">Profile</a></li>
+                    <li><a href="#">Notifications</a></li>
+                    <li><a href="#">My Properties</a></li>
+                </ul>
+            </div>
+        </div>
+            {% else %}
+            <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                    <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                </ul>
+            </div>
+        {% endif %}
         <!-- header -->
         <header>
             {% include "includes/header.html" %} 
         </header>
 
-        <div class="jumbotron" style=background-image:url({%static 'MySite/images/back.jpg'%});">
+        <div class="jumbotron" style="background-image:url({%static 'MySite/images/back.jpg'%});">
             <div class="container text-center">
                 
                 {% include "includes/search.html" %}
@@ -29,7 +52,7 @@
         </div>
 
         <div class="container">
-            <h3>{{ propety.property_title }} {{ propety.location }}  </h3><br>
+            <h3>{{ propety.propertytitle }} at {{ propety.location }}  </h3><br>
             <div class="row">
                 <div class="col-md-8">
                     <div class="well well-lg">
@@ -92,7 +115,7 @@
                     </div>
                 </div>     
                 {% for message in messages %} 
-                toastr.{{ message.tags }}({{ message }});
+                {{ message.tags }}({{ message }});
               {% endfor %} 
                 <div class="col-md-4">
                     <div class="well">
@@ -103,13 +126,13 @@
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="First & Last Name" value="">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ request.user.first_name}}">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="email" class="col-sm-2 control-label">Email</label>
                                 <div class="col-sm-10">
-                                    <input type="email" class="form-control" id="email" name="email" placeholder="example@domain.com" value="">
+                                    <input type="email" class="form-control" id="email" name="email" placeholder="your email" value="{{ request.user.email}}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -137,14 +160,15 @@
                         </form>
                     </div>
                     <p>Or you can, </p>
+                    <h5>Book a viewing date and time below and our agent will contact you shortly</h5>
                     <div class="well">
                         <p>Book a viewing for this property</p>
-                        <form class="form-horizontal" role="form" method="post" action="." id="booking_form">
+                        <form class="form-horizontal" role="form" method="post" action="/propertys/{{propety.propertytitle}}/{{propety.property_id}}/" id="booking_form">
                             {% csrf_token %}
                             <div class="form-group">
                                 <label for="name" class="col-sm-2 control-label">Name</label>
                                 <div class="col-sm-10">
-                                    <input type="text" class="form-control" id="name" name="name" placeholder="First & Last Name" value="">
+                                    <input type="text" class="form-control" id="name" name="name" placeholder="Name" value="{{ request.user.first_name}}">
                                 </div>
                             </div>
                             <div class="form-group">
@@ -156,12 +180,24 @@
                             <div class="form-group">
                                 <label for="message" class="col-sm-2 control-label"> Date</label>
                                 <div class='col-sm-10'>
-                                    <input type='date' class="form-control" id="date" name="date">
+                                    <input type='date' class="form-control" id="date" name="date" min="2019-03-14">
                                 </div>
                             </div>
                             <div class="form-group">
+                                    <label for="message" class="col-sm-2 control-label"> Time </label>
+                                    <div class='col-sm-10'>
+                                        <select class="form-control search-slt" id="exampleFormControlSelect1" name="q">
+                                            <option disabled>Time</option>
+                                            <option>11:00 A.M</option>
+                                            <option>1:00 P.M</option>
+                                            <option>3:00 P.M</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            <div class="form-group">
                                     <div class="col-sm-10">
                                         <input type="hidden" class="form-control" id="property_id" name="property_id"  value="{{ propety.property_id }}">
+                                        <input type="hidden" class="form-control" id="propertytitle" name="propertytitle"  value="{{ propety.propertytitle}}">
                                     </div>
                                 </div>
                             <div class="form-group">
@@ -182,7 +218,8 @@
             <div class="row">
                 <div class="col-md-8">
                     <div class="property_title">Take a virtual tour of this property</div>
-                        <iframe style="max-width: 100%"; width="940"; height="480"; frameborder="0"; allowfullscreen src="https://players.cupix.com/embed.html?key=g4VcARag";></iframe>
+                    <iframe style="max-width: 100%;" width="940" height="480" frameborder="0" allowfullscreen src="https://players.cupix.com/embed.html?key=TOuDocSW"></iframe>
+                       
                 </div>
                 <div class="col-md-4">
                     <div class="contact_map" onload="initialize()">
@@ -199,7 +236,7 @@
             </div>
             {% endfor %}
     
-    
+          
     </div>
 
 <footer class="container-fluid text-center" style="background-color: #79e8c0 !important;">

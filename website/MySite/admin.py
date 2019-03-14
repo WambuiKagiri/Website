@@ -13,9 +13,6 @@ from .models import booked_viewings
 # from .forms import CustomUserCreationForm, CustomUserChangeForm
 # from .models import Agent
 
-admin.site.register(contact_on_property)
-admin.site.register(booked_viewings)
-
 
 
 class property_admin(admin.ModelAdmin):
@@ -27,19 +24,30 @@ class property_admin(admin.ModelAdmin):
 		if db_field.name == 'location':
 			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
 			return formfield
-		if db_field.name == 'property_title':
+		if db_field.name == 'propertytitle':
 			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
 			return formfield
 		if db_field.name == 'price':
 			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
 			return formfield
-		if db_field.name == 'property_type':
+		if db_field.name == 'propertytype':
+			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
+			return formfield
+		if db_field.name == 'rentbuy':
+			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
+			return formfield
+		if db_field.name == 'extras':
+			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
+			return formfield
+		if db_field.name == 'bedrooms':
 			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
 			return formfield
 		
+			
+		
 
-	list_display = ['property_id','property_title','location','price','property_type','rent_buy','bedrooms','bathrooms','patio','garage','area']
-	list_filter = ['price']
+	list_display = ['property_id','propertytitle','location','price','propertytype','rentbuy','bedrooms','bathrooms','patio','garage','area']
+	list_filter = ['price','location','rentbuy','propertytype']
 	class Meta:
 		model = propety
 
@@ -67,10 +75,17 @@ class listings_waiting_listAdmin(admin.ModelAdmin):
 admin.site.register(listings_waiting_list,listings_waiting_listAdmin)
 
 
-# class CustomUserAdmin(UserAdmin):
-#     add_form = CustomUserCreationForm
-#     form = CustomUserChangeForm
-#     model = Agent
-#     list_display = ['email', 'fname','lname','location','phone1','gender']
 
-# admin.site.register(CustomUser, CustomUserAdmin)
+class booked_viewingsAdmin(admin.ModelAdmin):
+	list_display = ['booking_id','name','mobile_no','property_id','date','propertytitle']
+	
+	class Meta:
+		model = booked_viewings
+admin.site.register(booked_viewings,booked_viewingsAdmin)
+
+class contact_on_propertyAdmin(admin.ModelAdmin):
+	list_display = ['message_id','name','email','property_id','message']
+	
+	class Meta:
+		model = contact_on_property
+admin.site.register(contact_on_property,contact_on_propertyAdmin)
