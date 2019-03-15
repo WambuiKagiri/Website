@@ -199,3 +199,5 @@ TWILIO_AUTH_TOKEN = '1c80885600c3733c5491215c3202f357'
 PAYPAL_RECEIVER_EMAIL = 'desmapropertiesteam-facilitator@gmail.com'
  
 PAYPAL_TEST = True
+
+AUTH_PROFILE_MODULE = "MySite.Profile"

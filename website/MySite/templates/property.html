@@ -50,7 +50,15 @@
                 {% include "includes/search.html" %}
             </div>
         </div>
-
+        {% for message in messages %} 
+        <div class="alert alert-success" role="alert">
+                {{ message }}
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        
+      {% endfor %} 
         <div class="container">
             <h3>{{ propety.propertytitle }} at {{ propety.location }}  </h3><br>
             <div class="row">
@@ -114,9 +122,7 @@
                             </div>  
                     </div>
                 </div>     
-                {% for message in messages %} 
-                {{ message.tags }}({{ message }});
-              {% endfor %} 
+
                 <div class="col-md-4">
                     <div class="well">
                         <p>Contact agent about this property</p>
@@ -186,7 +192,7 @@
                             <div class="form-group">
                                     <label for="message" class="col-sm-2 control-label"> Time </label>
                                     <div class='col-sm-10'>
-                                        <select class="form-control search-slt" id="exampleFormControlSelect1" name="q">
+                                        <select class="form-control search-slt" id="exampleFormControlSelect1" name="time">
                                             <option disabled>Time</option>
                                             <option>11:00 A.M</option>
                                             <option>1:00 P.M</option>

@@ -23,7 +23,7 @@ from django.conf.urls import url,include
 from django.contrib.auth import views
 from django.contrib.auth import views as auth_views
 from accounts.views import (login,register,reset_view,refer_view,success)
-from MySite.views import dashboard,home,subscribe,agentprofile, search, propertycontact,listpropertyy, paypage, listpropetrty
+from MySite.views import dashboard,home,subscribe,agentprofile, search, propertycontact,listpropertyy, paypage, listpropetrty, messagestatus
 from payment.views import process_payment, payment_done, payment_canceled
 from django.urls import path
 from django.views.generic import TemplateView
@@ -47,6 +47,7 @@ urlpatterns = [
     url(r'^register/',register,name='register'),
     url(r'^subscribe/',subscribe,name='subscribe'),
     url(r'^success/',success,name='success'),
+    url(r'^updatemessage/',messagestatus,name='messagestatus'),
     url(r'^reset/',reset_view,name='reset'),
     url(r'^refer/',refer_view,name='refer'),
     url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/',include('accounts.urls')),

@@ -42,11 +42,19 @@ class property_admin(admin.ModelAdmin):
 		if db_field.name == 'bedrooms':
 			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
 			return formfield
-		
+		if db_field.name == 'lister':
+			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
+			return formfield
+		if db_field.name == 'status':
+			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
+			return formfield
+		if db_field.name == 'agent':
+			formfield.widget = forms.TextInput(attrs=formfield.widget.attrs)
+			return formfield
 			
 		
 
-	list_display = ['property_id','propertytitle','location','price','propertytype','rentbuy','bedrooms','bathrooms','patio','garage','area']
+	list_display = ['property_id','lister','agent','status','propertytitle','location','price','propertytype','rentbuy','bedrooms','bathrooms','patio','garage','area']
 	list_filter = ['price','location','rentbuy','propertytype']
 	class Meta:
 		model = propety
@@ -77,7 +85,8 @@ admin.site.register(listings_waiting_list,listings_waiting_listAdmin)
 
 
 class booked_viewingsAdmin(admin.ModelAdmin):
-	list_display = ['booking_id','name','mobile_no','property_id','date','propertytitle']
+	list_display = ['booking_id','name','mobile_no','property_id','date','time','propertytitle']
+	list_filter = ['name','date','propertytitle','time']
 	
 	class Meta:
 		model = booked_viewings

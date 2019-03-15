@@ -173,20 +173,18 @@ class PropertiesPageView(TemplateView):
 @login_required(login_url='/accounts/login/')
 @user_passes_test(lambda u: u.groups.filter(name='Agents').exists())
 def dashboard(request):
-	listt = listings_waiting_list.objects.all()
-	bookin = booked_viewings.objects.all()
-	paginator = Paginator(listt,8)
+	propt = propety.objects.filter(agent = request.user)
+	paginator = Paginator(propt,2)
 	
 	page = request.GET.get('page')
 	try:
-		listt = paginator.page(page)
-		
+		propt = paginator.page(page)
 	except PageNotAnInteger:
-		listt = paginator.page(1)
+		propt = paginator.page(1)
 	except EmptyPage:
-		listt = paginator.page(paginator.num_pages)
+		propt = paginator.page(paginator.num_pages)
 	
-	return render(request, 'agent.html')
+	return render(request, 'agent.html',{'propt':propt})
 	# else:
 	# 	return redirect('/accounts/login/')
 
@@ -250,15 +248,32 @@ def agentsearch(request):
 
 # message = client.messages \
 #                 .create(
-#                      body=" Hello, We have received your request and we will get back to you shortly. ",
+#                      body=" Hello, We have received your payment. ",
 #                      from_='+12015716689',
-#                      to='+254770268633'
+#                      to='+254708618988'
 #                  )
 
 # print(message.sid)
 
+@csrf_protect
+@ensure_csrf_cookie
 def listpropetrty(request):
-	return render(request, 'listToproperty.html')
+	form = list_form(request.POST)
+	if request.method == 'POST':	
+		if form.is_valid():
+			propety = form.save()
+			propety.save()			
+			return render(request, 'listToproperty.html',{'form':form})
+
+		else:		
+			return render(request, 'listToproperty.html',{'form':form})
+
+	else:
+		form = list_form()
+		args = {'form':form}
+		args.update(csrf(request))
+		args['form'] = list_form()
+		return render(request,  'listToproperty.html',args)
 
 # def follow_user(request, user):
 #     user = User.objects.get(username=user)
@@ -294,10 +309,7 @@ def listpropertyy(request,**kwargs):
 	if request.method == 'POST':	
 		if form.is_valid():
 			propety = form.save()
-			propety.save()
-
-			# propety.objects.create(propertytitle=title,location=loc,price=pri,rentbuy=ren,propertytype=tyype,extras=exts,description=desc,area=ar)
-			
+			propety.save()			
 			return HttpResponseRedirect('/process-payment/')
 				
 
@@ -312,7 +324,15 @@ def listpropertyy(request,**kwargs):
 		return render(request,  'ListProperty.html',args)
 
 def clientproperties(request):
-	return render(request,'myproperties.html')
+	props = propety.objects.filter(lister= request.user)
+	return render(request,'myproperties.html',{'props':props})
 
 def paypage(request):
 	return render(request,'payment.html')
+
+def messagestatus(request):
+    message = contact_on_property.objects.all()
+    message.status = 'Complete'
+    message.update()
+
+    return redirect(request, 'propertymessages.html',{'message':message})

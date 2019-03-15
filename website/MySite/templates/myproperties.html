@@ -89,14 +89,16 @@
                                         </tr>
                                     </thead>
                                     <tbody>
+                                            {% for propety in props %}
                                         <tr>
-                                            <td><a href="#"></a></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
-                                            <td></td>
+                                            <td><a href="#">{{ propety.property_id }}</a></td>
+                                            <td>{{ propety.propertytype }}</td>
+                                            <td>{{ propety.location }}</td>
+                                            <td>{{ propety.price }}</td>
+                                            <td> {{ propety.status}}</td>
                                             <td></td>
                                         </tr>
+                                            {% endfor %}
                                     </tbody>
                                 </table>
                             </div>

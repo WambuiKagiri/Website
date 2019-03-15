@@ -28,7 +28,17 @@ class contact_on_property(models.Model):
 	name = models.CharField(max_length=50)
 	email = models.EmailField(max_length=150)
 	message = models.CharField(max_length=1000)
-	property_id = models.IntegerField()	
+	property_id = models.IntegerField()
+
+	Complete = 'Complete'
+	Pending = 'Pending'
+
+	STATUS_CHOICES = (
+        (Complete, 'Complete'),
+        (Pending, 'Pending'),
+    )
+	status = models.CharField(max_length=10, choices=STATUS_CHOICES,default=Pending)
+
 
 class booked_viewings(models.Model):
 	booking_id = models.AutoField(primary_key=True)
@@ -37,9 +47,11 @@ class booked_viewings(models.Model):
 	name = models.CharField(max_length=100)
 	date = models.DateField(blank=False,)
 	propertytitle = models.CharField(max_length=500,blank=True)
+	time = models.CharField(max_length=10)
 
 class propety(models.Model):
-	# client = models.ForeignKey(User,on_delete=models.CASCADE)
+	lister = models.CharField(max_length=100)
+	agent = models.CharField(max_length=100) 
 	property_id = models.AutoField(primary_key=True)
 	propertytitle = models.CharField(max_length=2000)
 	location = models.CharField(max_length=1000)
@@ -60,6 +72,15 @@ class propety(models.Model):
 	patio = models.IntegerField(blank=True)
 	garage = models.IntegerField(blank=True)
 	area = models.CharField(max_length=20,blank=True)
+
+	Complete = 'Complete'
+	Pending = 'Pending'
+
+	STATUS_CHOICES = (
+        (Complete, 'Complete'),
+        (Pending , 'Pending'),
+    )
+	status = models.CharField(max_length=10, choices=STATUS_CHOICES,default=Pending)
 
 
 from .forms import property_form
