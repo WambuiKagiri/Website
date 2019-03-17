@@ -116,16 +116,17 @@ def propertypage(request, propertytitle,pk, **kwargs):
 	if request.method == 'POST':
 		form = customer_form(request.POST)
 		if form.is_valid():
-			message = form.save()
-			message.save()
+			form.save()
 			messages.success(request, "Your message has been sent")
 			return render(request, 'property.html', {'form':form,'propertys':propertys})
 
 		else:
+			print("has not worked")
 			propertys = propety.objects.all().filter(propertytitle= propertytitle)
 			return render(request, 'property.html',{'propertys':propertys})
 
 	else:
+		print("haijafikia method")
 		propertys = propety.objects.all().filter(propertytitle= propertytitle)
 		return render(request, 'property.html',{'propertys':propertys})
 	
@@ -289,7 +290,7 @@ def listpropetrty(request):
 def propertycontact(request):
 	requests = contact_on_property.objects.all()
 	
-	paginator = Paginator(requests,8)
+	paginator = Paginator(requests,7)
 	
 	page = request.GET.get('page')
 	try:
@@ -336,3 +337,10 @@ def messagestatus(request):
     message.update()
 
     return redirect(request, 'propertymessages.html',{'message':message})
+
+def clientbookings(request):
+	props = propety.objects.filter(lister= request.user)
+	return render(request,'clientbookings.html',{'props':props})
+
+def agenteditproperty(request):
+	return render(request,'agenteditproperty.html')

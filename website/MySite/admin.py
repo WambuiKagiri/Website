@@ -93,7 +93,7 @@ class booked_viewingsAdmin(admin.ModelAdmin):
 admin.site.register(booked_viewings,booked_viewingsAdmin)
 
 class contact_on_propertyAdmin(admin.ModelAdmin):
-	list_display = ['message_id','name','email','property_id','message']
+	list_display = ['message_id','name','email','property_id','message','status']
 	
 	class Meta:
 		model = contact_on_property

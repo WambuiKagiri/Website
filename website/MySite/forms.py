@@ -24,7 +24,7 @@ from .models import contact_on_property
 class customer_form(forms.ModelForm):
 	class Meta:
 		model = contact_on_property
-		fields = '__all__'
+		fields = ['message_id','message','name','email','property_id']
 
 class DateInput(forms.DateTimeInput):
 	input_type = 'date'

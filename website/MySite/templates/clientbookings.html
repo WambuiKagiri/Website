@@ -1,0 +1,141 @@
+
+<!DOCTYPE html>
+{% load static %}
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Desma Properties</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="shortcut icon" type="image/png" href="{%static 'MySite/images/icon.png'%}">
+    <link rel="stylesheet" type="text/css" media="screen" href="{%static 'MySite/styles/main.css'%}" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://fastcdn.org/Animate.css/3.4.0/animate.min.css">
+    
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+    <!-- <script src="main.js"></script> -->
+</head>
+<body>
+    <style>
+        .upper-links {
+    display: inline-block;
+    padding: 0 11px;
+    line-height: 23px;
+    font-family: 'Roboto', sans-serif;
+    letter-spacing: 0;
+    color: inherit;
+    border: none;
+    outline: none;
+    font-size: 15px;
+}
+    </style>
+    <div class="supercontainer">
+            {% if user.is_authenticated %}
+            <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                <div class="dropdown" style="color: white;margin-left: 1100px;display: inline-flex;">
+                    <button class="dropdown-toggle" type="button" data-toggle="dropdown" style="background-color: #0e1a35;">ACCOUNT
+                    <span class="caret"></span></button>
+                    <a class="upper-links" style="border-right:solid 1px ;"></a> 
+                    <a href="{% url 'logout' %}"><button type="button"  style="background-color: #0e1a35;">SIGN OUT
+                    <span class="caret"></span></button></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/client/profile/">Profile</a></li>
+                        <li><a href="#">Notifications</a></li>
+                        <li><a href="/myproperties/">My Properties</a></li>
+                    </ul>
+                </div>
+            </div>
+            {% else %}
+                <div class="row" style="background-color: #0e1a35;height: 31px;margin-top: -0.1%;">
+                    <ul style="color: white;margin-left: 1100px;display: inline-flex;">
+                        <li class="upper-links"><a href="{% url 'login' %}?next={{request.path}}" style="color: white;">LOGIN </a></li>
+                        <li class="upper-links"><a href="/register/" style="color: white;">SIGN UP</a></li>
+                    </ul>
+                </div>
+            {% endif %}
+
+        <!-- header -->
+        <header>
+            {% include "includes/header.html" %} 
+        </header>
+
+        <div class="container">
+                <h2>Responsive Tables Using LI <small>Triggers on 767px</small></h2>
+                <ul class="responsive-table">
+                  <li class="table-header">
+                    <div class="col col-1">Job Id</div>
+                    <div class="col col-2">Customer Name</div>
+                    <div class="col col-3">Amount Due</div>
+                    <div class="col col-4">Payment Status</div>
+                  </li>
+                  <li class="table-row">
+                    <div class="col col-1" data-label="Job Id">42235</div>
+                    <div class="col col-2" data-label="Customer Name">John Doe</div>
+                    <div class="col col-3" data-label="Amount">$350</div>
+                    <div class="col col-4" data-label="Payment Status">Pending</div>
+                  </li>
+                  <li class="table-row">
+                    <div class="col col-1" data-label="Job Id">42442</div>
+                    <div class="col col-2" data-label="Customer Name">Jennifer Smith</div>
+                    <div class="col col-3" data-label="Amount">$220</div>
+                    <div class="col col-4" data-label="Payment Status">Pending</div>
+                  </li>
+                  <li class="table-row">
+                    <div class="col col-1" data-label="Job Id">42257</div>
+                    <div class="col col-2" data-label="Customer Name">John Smith</div>
+                    <div class="col col-3" data-label="Amount">$341</div>
+                    <div class="col col-4" data-label="Payment Status">Pending</div>
+                  </li>
+                  <li class="table-row">
+                    <div class="col col-1" data-label="Job Id">42311</div>
+                    <div class="col col-2" data-label="Customer Name">John Carpenter</div>
+                    <div class="col col-3" data-label="Amount">$115</div>
+                    <div class="col col-4" data-label="Payment Status">Pending</div>
+                  </li>
+                </ul>
+              </div>
+
+              <style>
+                  body{font-family:lato,sans-serif}
+.container{max-width:1000px;margin-left:auto;margin-right:auto;padding-left:10px;padding-right:10px}
+h2{font-size:26px;margin:20px 0;text-align:center}
+small{font-size:.5em}
+li{border-radius:3px;padding:25px 30px;display:flex;justify-content:space-between;margin-bottom:25px}
+.table-header{background-color:#95A5A6;font-size:14px;text-transform:uppercase;letter-spacing:.03em}
+.table-row{background-color:#fff;box-shadow:0 0 9px 0 rgba(0,0,0,.1)}
+.col-1{flex-basis:10%}
+.col-2{flex-basis:40%}
+.col-3,.col-4{flex-basis:25%}
+@media all and (max-width:767px){
+.table-header{display:none}
+li{display:block}
+.col{flex-basis:100%;display:flex;padding:10px 0}
+.col:before{color:#6C7A89;padding-right:10px;content:attr(data-label);flex-basis:50%;text-align:right}
+}
+
+              </style>
+              <script>
+                  $('#wizard').bootstrapWizard({onNext: function(tab, navigation, index) {
+    $valid = true;
+    $newUser = $('#newUser').data('bootstrapValidator'); //the validator
+    $wizard = $('#wizard').data('bootstrapWizard'); //the wizard
+
+    $tab = $('#wizard').find('.tab-content').children().eq($wizard.currentIndex())
+    $tab.find('input:text, input:password, input:file, select, textarea, input:not([type=hidden])')
+        .each(function() {
+            if ($newUser.options.fields[$(this).attr('name')]) {
+            $newUser.validateField($(this).attr('name'));
+            if ($(this).closest('.form-group').hasClass('has-error')){
+                $valid = false;
+                }
+            }
+        });
+    return $valid ;
+}
+
+              </script>
+</div>
+</body>
+</html>

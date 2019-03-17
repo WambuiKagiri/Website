@@ -78,8 +78,8 @@ def register(request):
 			user = f.save()
 			user.is_active = False
 			user.refresh_from_db()
-			user.Profile.mobile_no = phone
-			user.Profile.location = location
+			user.profile.mobile_no = phone
+			user.profile.location = location
 			user.save()
 			group = f.cleaned_data.get('group')
 			user.groups.add(group)

@@ -39,25 +39,6 @@ function viewListings(){
 }
   </script>
 
-<style>
-        table {
-          font-family: arial, sans-serif;
-          border-collapse: collapse;
-          width: 80%;
-          margin-left: 18%;
-          margin-top: -48%;
-        }
-        
-        td, th {
-          border: 1px solid #dddddd;
-          text-align: left;
-          padding: 8px;
-        }
-        
-        tr:nth-child(even) {
-          background-color: #dddddd;
-        }
-</style>
     <div class="row">
         <h5 style="    margin-left: 20%;
         margin-top: -39%;">Properties you have listed</h5>
@@ -103,10 +84,11 @@ function viewListings(){
                                 </div>
                             </div>
                         </div>
+                        <a href="/agent-edit-property/">
                         <button type="button" class="btn btn-primary" style="margin-left: 45%;
-                        margin-top: 2%;">Edit</button>
+                        margin-top: 2%;">Edit</button></a>
 
-                        <button type="button" class="btn btn-danger"  style="margin-left: 3%;margin-top: 2%;"><a href="#myModal" class="trigger-btn" data-toggle="modal">Delete</a></button>
+                        <button type="button" class="btn btn-danger"  style="margin-left: 3%;margin-top: 2%;"><a href="#myModal" class="trigger-btn" data-toggle="modal" style="    color: white;">Delete</a></button>
                     </div>
                 
                     {% endfor %}
