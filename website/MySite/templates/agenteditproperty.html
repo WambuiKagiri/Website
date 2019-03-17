@@ -17,6 +17,146 @@
     {% include 'includes/agenthead.html' %}
 
   </div>
+  <div class="row">
+        <div class="col-lg-9 col-md-9 col-sm-12 col-xs-12" style="    position: absolute;
+        margin-left: 20%;
+        margin-top: -39%;    overflow: auto;
+    max-height: 85vh;">
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h1 class="panel-title pull-left" style="font-size:30px;">Edit Property - {{ propety.propertytitle }}</h1>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3 class="panel-title pull-left">Property Details</h3>
+                        <br><br>
+                        <form class="form-horizontal">
+                            <label>Property Title</label>
+                            <input type="text" class="form-control" id="" name="propertytitle" placeholder="Property Title" value="">
+                            <label>Category</label>
+                            <select id="profile_date_month" name="propertytype" class="form-control">
+                                <option value="" selected="selected">Category</option>
+                                <option value="" >Residential</option>
+                                <option value="">Commercial</option>
+                            </select>
+                            <label>For Rent/Sale</label>
+                            <select id="profile_date_month" name="propertytype" class="form-control">
+                                <option value="" selected="selected">Rent/Sale</option>
+                                <option value="" >Rent</option>
+                                <option value="" >Sale</option>
+                            </select>
+                            <div class="row">
+                                <div class="col-md-6">
+                                        <label>Location</label>
+                                        <input type="email" class="form-control" name="location" placeholder="Location" >
+                                </div>
+                                <div class="col-md-6">
+                                        <label>Price</label>
+                                        <input type="number" class="form-control" name="price" placeholder="Price" >
+                                </div>
+                            </div>
 
+
+                        </form>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        <h3 class="panel-title pull-left">Media</h3>
+                        <br><br>
+                        <div align="center">
+                            <div class="col-lg-12 col-md-12">
+                                <img class="img-thumbnail img-responsive" src="" width="80px" height="80px" style="    width: 20% !important;">
+                            </div>
+                            <div class="col-lg-12 col-md-12">
+                                <button class="btn btn-primary"><input type="file"><i class="fa fa-upload" aria-hidden="true"></i> Upload new media</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+                        
+                        <form class="form-horizontal">
+                            <label>Description</label>
+                            <textarea class="form-control" rows="4"></textarea>
+                        </form>
+                        <br><br>
+                        <form class="form-horizontal">
+                            <label></label>
+                            <div class="form-inline" id="birth-date">
+                                <select id="profile_date_year" name="profile[date][year]" class="form-control">
+                                    <option value="" selected="selected">Year</option>
+                                    <option value="2003">2003</option>
+                                    <option value="2002">2002</option>
+                                    <option value="2001">2001</option>
+                                    <option value="2000">2000</option>
+                                    <option value="1999">1999</option>
+                                    <option value="1998">1998</option>
+                                    <option value="1997">1997</option>
+                                    <option value="1996">1996</option>
+
+                                </select>
+                                <select id="profile_date_month" name="profile[date][month]" class="form-control">
+                                    <option value="" selected="selected">Month</option>
+     
+                                </select>
+                                <select id="profile_date_day" name="profile[date][day]" class="form-control">
+                                    <option value="" selected="selected">Day</option>
+                                    <option value="1">1</option>
+                  
+
+                                </select>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+                <hr>
+                <div class="panel panel-default">
+                    <div class="panel-body">
+
+                        <p class="text-danger"><strong><i class="fa fa-fw fa-exclamation-triangle" aria-hidden="true"></i> If you choose not to select this option, please add the #nsfw tag each time you share such material.</strong></p>
+                        <button class="btn btn-default"><i class="fa fa-fw fa-times" aria-hidden="true"></i> Cancel</button>
+                        <button class="btn btn-primary"><i class="fa fa-fw fa-check" aria-hidden="true"></i> Update Profile</button>
+                    </div>
+                </div>
+            </div>
+  </div>
+  <script>
+      $(function () {
+  $('[data-toggle="tooltip"]').tooltip()
+})
+
+$(function () {
+  $('[data-toggle="popover"]').popover()
+})
+  </script>
+  <style>
+      
+.brand_network {
+    color: #9D9D9D;
+    float: left;
+    position: absolute;
+    left: 70px;
+    top: 30px;
+    font-size: smaller;
+}
+
+.post-content {
+    margin-left:58px;
+}
+
+.badge-important {
+    margin-top: 3px;
+    margin-left: 25px;
+    position: absolute;
+}
+
+body {
+    background-color: #e8e8e8;
+}
+  </style>
 </body>
 </html>
